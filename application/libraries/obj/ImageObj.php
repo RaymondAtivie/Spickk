@@ -1,0 +1,58 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class ImageObj {
+
+    var $id;
+    var $file;
+    var $title;
+    var $description;
+    var $tags;
+    var $date_time;
+    var $public;
+    var $user_id;
+    var $download;
+
+    function __construct() {
+        
+    }
+
+    function getImageObj($id) {
+
+        $CI = & get_instance();
+        $CI->load->model('Image_model', 'IMM', TRUE);
+        $image = $CI->IMM->getImage($id);
+
+        if (!$image) {
+            //echo "USER DOESNT EXIST - (user object(libraries/obj/userobj.php) recieved EMAIL, USERNAME or ID of non existent user)";
+            return FALSE;
+        } else {
+            foreach ($image as $k => $v) {
+                $this->$k = $v;
+            }
+            return $this;
+        }
+    }
+
+    function getImageUser() {
+        $CI = & get_instance();
+        $CI->load->library('obj/UserObj', "", 'URO');
+        $params = array(
+            "type" => "id",
+            "value" => $this->user_id
+        );
+        $this->user = $CI->URO->getUserObj($params);
+
+        return $this->user;
+    }
+    
+    function getImageTags(){
+        $tags = explode(",", $this->tags);
+        
+        return $tags;
+    }
+}
+
+/* End of file Someclass.php */
