@@ -297,9 +297,10 @@
                         <?php if ($same) { ?>
                             <a href="" class="btn btn-info" ><i class="fa fa-pencil"></i>&nbsp;&nbsp; Edit Profile</a>
                         <?php } else { ?>
-                            <button type="button" class="btn btn-info" >Follow</button>
-                            <!--<button type="button" class="btn btn-success" >Following</button>-->
-                            <!--<button type="button" class="btn btn-danger" >Unfollow</button>-->
+                            <?php if($this->userObj->isFollowing($user->id)){ $y = "hidden"; $n = ""; }else{ $y=""; $n="hidden"; }?>
+                            <button type="button" rel="<?php echo $user->id ?>" class="btn btn-info <?php echo $y ?>" id="followBtn" >Follow</button>
+                            <button type="button" rel="<?php echo $user->id ?>" class="btn btn-success <?php echo $n ?>" id="followingBtn" >Following</button>
+                            <!--<button type="button" class="btn btn-danger hidden" id="unfollowBtn" >Unfollow</button>-->
                         <?php } ?>  
 
 
@@ -475,3 +476,43 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#followingBtn").hover(
+                function () {
+                    $(this).removeClass("btn-success");
+                    $(this).addClass("btn-danger");
+                    $(this).text("Unfollow");
+                },
+                function () {
+                    $(this).addClass("btn-success");
+                    $(this).removeClass("btn-danger");
+                    $(this).text("Following");
+                }
+        );
+
+
+        $("#followingBtn").click(function () {
+            var following_id = $(this).attr("rel");
+            $.get("<?php echo base_url("profile/unfollowUser") ?>/" + following_id, function (data, status) {
+                console.log("Data: " + data + " -- Status: " + status);
+                if (status === "success" && data === "1"){
+                    $("#followingBtn").addClass("hidden");
+                    $("#followBtn").removeClass("hidden");
+                }
+            });
+        });
+
+        $("#followBtn").click(function () {
+            var follow_id = $(this).attr("rel");
+            $.get("<?php echo base_url("profile/followUser") ?>/" + follow_id, function (data, status) {
+                console.log("Data: " + data + " -- Status: " + status);
+                if (status === "success" && data === "1"){
+                    $("#followBtn").addClass("hidden");
+                    $("#followingBtn").removeClass("hidden");
+                }
+            });
+        });
+    });
+</script>

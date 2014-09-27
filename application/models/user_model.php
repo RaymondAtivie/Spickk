@@ -21,31 +21,36 @@ class User_model extends CI_Model {
     }
 
     function followUser($user_id, $following_id) {
-        $set = array(
-            "follower_user_id" => $user_id,
-            "following_user_id" => $following_id
-        );
-        $query = $this->db->insert(TB_FOLLOWING, $set);
+        $t = $this->checkFollowing($user_id, $following_id);
+        if (!$t) {
+            $set = array(
+                "follower_user_id" => $user_id,
+                "following_user_id" => $following_id
+            );
+            $status = $this->db->insert(TB_FOLLOWING, $set);
 
-        if ($query->num_rows() > 0) {
-            return true;
-        } else {
+            if ($status) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
             return false;
         }
     }
 
     function unfollowUser($user_id, $following_id) {
         $t = $this->checkFollowing($user_id, $following_id);
-        if($t){
-            $where = array("id"=>$t);
-            $query = $this->db->delete(TB_FOLLOWING, $where);
-            
-            if($query->num_rows() > 0){
+        if ($t) {
+            $where = array("id" => $t);
+            $status = $this->db->delete(TB_FOLLOWING, $where);
+
+            if ($status) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }
@@ -59,7 +64,7 @@ class User_model extends CI_Model {
 
         if ($query->num_rows() > 0) {
             $num = $query->result()[0];
-            return $num['id'];
+            return $num->id;
         } else {
             return false;
         }

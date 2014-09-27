@@ -43,7 +43,7 @@
 
                                             </div>
                                             <div style="float: right; display: inline-block;text-align: right">                                
-                                                <a href="<?php echo base_url() ?>collection/thumb_600x/<?php echo $image->file ?>" 
+                                                <a href="<?php echo base_url() ?>collection/thumb_1000x/<?php echo $image->file ?>" 
                                                    data-imagelightbox="s" style="color: black; font-size: 15px" title="Quick view" 
                                                    alt="<?php echo $image->title ?>">
                                                     <i class="fa fa-search-plus"></i>&nbsp;&nbsp;

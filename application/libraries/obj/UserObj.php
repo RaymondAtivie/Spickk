@@ -70,7 +70,7 @@ class UserObj {
         $CI = & get_instance();
         $CI->load->model('User_model', 'URM', TRUE);
         
-        $bool = $this->URM->followUser($this->id, $follow_id);
+        $bool = $CI->URM->followUser($this->id, $follow_id);
         
         return $bool;
     }
@@ -79,7 +79,16 @@ class UserObj {
         $CI = & get_instance();
         $CI->load->model('User_model', 'URM', TRUE);
         
-        $bool = $this->URM->followUser($this->id, $following_id);
+        $bool = $CI->URM->unfollowUser($this->id, $following_id);
+        
+        return $bool;
+    }
+    
+    function isFollowing($following_id){
+        $CI = & get_instance();
+        $CI->load->model('User_model', 'URM', TRUE);
+        
+        $bool = $CI->URM->checkFollowing($this->id, $following_id);
         
         return $bool;
     }

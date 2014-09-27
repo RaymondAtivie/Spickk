@@ -47,6 +47,34 @@ class Profile extends MY_Controller {
         $this->load->view('include/foot');
         $this->load->view('include/footer');
     }
+    
+    public function followUser($follow_id) {
+        $result = $this->userObj->followUser($follow_id);
+        
+        echo $result;
+     
+        if($result){
+            $this->session->set_flashdata("msgBox", "success");
+            $this->session->set_flashdata("msgmsg", "Successfully Followed");
+        }else{            
+            $this->session->set_flashdata("msgBox", "danger");
+            $this->session->set_flashdata("msgmsg", "unsuccessfully unfollowed");
+        }
+    }
+    
+    public function unfollowUser($following_id) {
+        $result = $this->userObj->unfollowUser($following_id);
+        
+        echo $result;
+     
+        if($result){
+            $this->session->set_flashdata("msgBox", "success");
+            $this->session->set_flashdata("msgmsg", "Successfully Followed");
+        }else{            
+            $this->session->set_flashdata("msgBox", "danger");
+            $this->session->set_flashdata("msgmsg", "unsuccessfully unfollowed");
+        }
+    }
 
 }
 
