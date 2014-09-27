@@ -1,10 +1,37 @@
 <script>
-    $(document).ready(function() {
-        $(window).load(function() {
-            $(document).ready(function() {
+    $(document).ready(function () {
+        $(window).load(function () {
+            $(document).ready(function () {
                 scrollTo(($(document).width() - $(window).width()) / 2, 0);
             });
         });
+    });
+
+    $(document).ready(function () {
+        var $btnSets = $('#responsive'),
+                $btnLinks = $btnSets.find('a');
+
+        $btnLinks.click(function (e) {
+            e.preventDefault();
+            $(this).siblings('a.active').removeClass("active");
+            $(this).addClass("active");
+            var index = $(this).index();
+            $("div.user-menu>div.user-menu-content").removeClass("active");
+            $("div.user-menu>div.user-menu-content").eq(index).addClass("active");
+        });
+    });
+
+    $(document).ready(function () {
+        $("[rel='tooltip']").tooltip();
+
+        $('.view').hover(
+                function () {
+                    $(this).find('.caption').slideDown(250); //.fadeIn(250)
+                },
+                function () {
+                    $(this).find('.caption').slideUp(250); //.fadeOut(205)
+                }
+        );
     });
 </script>
 <div class="row">
@@ -254,41 +281,53 @@
     <div class="row user-menu-container square">
         <div class="col-md-7 user-details" style="margin-bottom: 0px">
             <div class="row coralbg white">
-                <div class="col-md-6 no-pad" style="margin-bottom: 0px">
+                <div class="col-md-6 no-pad col-sm-6 col-xs-6" style="margin-bottom: 0px">
                     <div class="user-pad">
-                        <h3 style="margin-top: 0px">Welcome back, <?php echo $user->firstname ?></h3>
+                        <h3 style="margin-top: 0px">
+                            <?php if ($same) { ?>
+                                Welcome back, <?php echo $user->firstname ?>
+                            <?php } else { ?>
+                                <?php echo $user->firstname ?> <?php echo $user->lastname ?>
+                            <?php } ?>  
+                        </h3>
                         <h4 class="label label-lg label-danger" style="color: white; font-size: larger; background-color: #FA396F"><?php echo $user->getCategory() ?></h4>
                         <h5 class="white">I'm a photography and i love taking pictures</h5>
                         <h5 class="white"><i class="fa fa-location-arrow"></i>&nbsp; Covenant University, Lagos, Nigeria</h5>
-                        <button type="button" class="btn btn-labeled btn-info" >
-                            <span class="btn-label"><i class="fa fa-thumbs-o-up"></i></span>Follow
-                        </button><br />
+
+                        <?php if ($same) { ?>
+                            <a href="" class="btn btn-info" ><i class="fa fa-pencil"></i>&nbsp;&nbsp; Edit Profile</a>
+                        <?php } else { ?>
+                            <button type="button" class="btn btn-info" >Follow</button>
+                            <!--<button type="button" class="btn btn-success" >Following</button>-->
+                            <!--<button type="button" class="btn btn-danger" >Unfollow</button>-->
+                        <?php } ?>  
+
 
                     </div>
                 </div>
-                <div class="col-md-6 no-pad"  style="margin-bottom: 0px">
+                <div class="col-md-6 col-sm-6 col-xs-6 no-pad"  style="margin-bottom: 0px">
                     <div class="user-image">
                         <img src="https://farm7.staticflickr.com/6163/6195546981_200e87ddaf_b.jpg" class="img-responsive thumbnail">
                     </div>
                 </div>
             </div>
             <div class="row overview">
-                <div class="col-md-4 user-pad text-center">
+                <div class="col-md-4 col-sm-4 col-xs-4 user-pad text-center">
                     <h3>FOLLOWERS</h3>
                     <h4>2,784</h4>
                 </div>
-                <div class="col-md-4 user-pad text-center">
+                <div class="col-md-4 col-sm-4 col-xs-4 user-pad text-center">
                     <h3>VIEWS</h3>
                     <h4>456</h4>
                 </div>
-                <div class="col-md-4 user-pad text-center">
+                <div class="col-md-4 col-sm-4 col-xs-4 user-pad text-center">
                     <h3>APPRECIATIONS</h3>
                     <h4>4,901</h4>
                 </div>
             </div>
         </div>
-        <div class="col-md-1 user-menu-btns" style="margin-bottom: 0px">
-            <div class="btn-group-vertical square" id="responsive">
+        <div class="col-md-1 user-menu-btns visible-md visible-lg" style="margin-bottom: 0px">
+            <div class="btn-group-vertical square" id="responsive" >
                 <a href="#" class="btn btn-block btn-default active">
                     <i class="fa fa-bell-o fa-3x"></i>
                 </a>
@@ -303,7 +342,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-4 user-menu user-pad" style="margin-bottom: 0px">
+        <div class="col-md-4 user-menu user-pad visible-md visible-lg" style="margin-bottom: 0px">
             <div class="user-menu-content active">
                 <h3>
                     Recent Interactions
@@ -388,16 +427,43 @@
                 </div>
             </div>
             <div class="user-menu-content">
+                <h3>
+                    Contact <?php echo ($same ? 'Me' : $user->firstname) . '!'; ?>
+                </h3>
 
                 <form action="" method="POST">
                     <div class="row">
-                        <div class="col-md-12">
-
-                            <div class="form-group">
-                                <textarea name="message" class="form-control input-lg" rows="8" placeholder="Hey... I love your work can we meet?"  style="resize: none"></textarea>
+                        <?php if ($same == "yes") { ?>
+                            <div class="col-md-12">
+                                <p class="text-info">Messages from users whom want to reach you would be sent to this email</p>
                             </div>
 
-                        </div>        
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="email" class="form-control input-lg" rows="8" placeholder="<?php echo $user->email ?>"  />
+                                </div>
+                            </div>      
+                            <br />
+                            <div class="col-md-12">
+                                <p class="text-info">Set what initial message you want the user to see</p>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="text" class="form-control input-lg" rows="8" value="Hey there... I can make you up for free"  />
+                                </div>
+                            </div>      
+                        <?php } else { ?>
+                            <div class="col-md-12">
+
+                                <div class="form-group">
+                                    <textarea name="message" class="form-control input-lg" rows="8" placeholder="Hey... I love your work can we meet?"  style="resize: none"></textarea>
+                                </div>
+
+                            </div>    
+                        <?php } ?>
+
+
                     </div>
                     <div class="row nobm">
                         <div class="col-md-6 col-md-offset-3">

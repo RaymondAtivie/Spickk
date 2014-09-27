@@ -9,7 +9,7 @@
 <section>
     <div class="container">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
 
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
@@ -25,28 +25,35 @@
                         <div class="row">
                             <div class='col-md-12'>
                                 <?php foreach ($user_images as $image) { ?>
-                                    <div class="col-xs-6 col-sm-4 col-md-4">
+                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="padding: 0px 4px 10px 4px">
                                         <div class="imageSub img-popover thumbnail info-thumbnail background-clouds color-text" >
+                                            <a href="<?php echo base_url("gallery/image") . "/" . $image->id; ?>">
+                                                <img class="img" src="<?php echo base_url() ?>collection/thumb_400_square/<?php echo $image->file ?>" alt="<?php echo $image->title ?>" />
+                                            </a>                            
+                                        </div>
+                                        <div>
 
-                                            <img class="round img" src="<?php echo base_url() ?>collection/thumb_300_square/<?php echo $image->file ?>" alt="<?php echo $image->title ?>" />
-
-                                            <div class="blackbg"></div>
-                                            <div class="label" style="display: inline-block; float: left">
-                                                <?php echo $image->title ?><br />
+                                            <div style="display: inline-block; float: left">
+                                                <b style="font-size: 17px"><?php echo $image->title ?></b><br />
                                                 <small>
-                                                    <?php echo $image->getImageUser()->firstname . " " . $image->getImageUser()->lastname; ?>
-                                                    <span class="label label-success"><?php echo $image->getImageUser()->getCategory() ?></span>
+                                                    <span style="font-size: 15px">
+                                                        <?php echo $image->getImageUser()->firstname . " " . $image->getImageUser()->lastname; ?>
+                                                    </span>
                                                 </small> 
 
                                             </div>
-                                            <div class="label" style="float: right; display: inline-block;text-align: right">                                
+                                            <div style="float: right; display: inline-block;text-align: right">                                
                                                 <a href="<?php echo base_url() ?>collection/thumb_600x/<?php echo $image->file ?>" 
-                                                   data-imagelightbox="s" style="color: white; font-size: 15px" title="Quick view" alt="<?php echo $image->title ?>">
+                                                   data-imagelightbox="s" style="color: black; font-size: 15px" title="Quick view" 
+                                                   alt="<?php echo $image->title ?>">
                                                     <i class="fa fa-search-plus"></i>&nbsp;&nbsp;
-                                                </a>
+                                                </a><br />
+                                                <small><span class="label label-success"><?php echo $image->getImageUser()->getCategory() ?></span></small>
+
                                             </div>
-                                        </div>                                       
-                                    </div>
+
+                                        </div>
+                                    </div> 
                                 <?php } ?>
                             </div>
                         </div>
@@ -108,13 +115,13 @@
     </div>
 </section>
 <script>
-    $(document).ready(function() {
-        $(".albumimg").mouseover(function() {
+    $(document).ready(function () {
+        $(".albumimg").mouseover(function () {
             var rel = $(this).attr("rel");
             $("#" + rel + "caption").fadeIn(300);
         });
 
-        $(".caption").mouseleave(function() {
+        $(".caption").mouseleave(function () {
             $(this).fadeOut(200);
         });
 

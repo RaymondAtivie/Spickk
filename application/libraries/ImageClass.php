@@ -81,8 +81,12 @@ class ImageClass {
     }
 
     private function createThumbImages($filename) {
+        $this->createThumbImage($filename, 100);
+        $this->createThumbImage($filename, 150);
         $this->createThumbImage($filename, 300);
+        $this->createThumbImage($filename, 400);
         $this->createThumbImage($filename, 600, NULL, FALSE);
+        $this->createThumbImage($filename, 1000, NULL, FALSE);
     }
 
     private function createThumbImage($filename, $size1 = 300, $size2 = NUll, $square = TRUE) {

@@ -20,15 +20,6 @@ class Profile extends MY_Controller {
         $this->load->view('include/footer');
     }
 
-    function hovercard($image_id) {
-        //echo "This is dynamic <a href='#rr'>".$_GET['id']."</a>";        
-        $this->load->library("obj/ImageObj", "", "IMO");
-        
-        $data['image'] = $this->IMO->getImageObj($image_id);
-        
-        $this->load->view('image_hovercard', $data);
-    }
-
     function page($username) {
         $this->load->library("obj/UserObj", "", "URO");
         $params = array(
@@ -38,6 +29,10 @@ class Profile extends MY_Controller {
         $user = $this->URO->getUserObj($params);
         if (!$user) {
             show_404();
+        }elseif ($user->username == $this->userObj->username) {
+            $data['same'] = true;
+        }else{
+            $data['same'] = false;
         }
 
         $data['user'] = $user;

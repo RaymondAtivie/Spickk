@@ -46,10 +46,10 @@
     </div>
 </div>
 
-<div class="container" style='padding-top: 10px'>
-    <div class='row'>
-        <div class='col-md-10 col-md-offset-1'>
-            <img class="img" src='<?php echo base_url() . "collection/original/" . $image->file ?>' style='width: 100%' />
+<div class="container-fluid" style='padding-top: 10px'>
+    <div class='row-fluid'>
+        <div class='col-md-10 col-md-offset-1' style="text-align: center">
+            <img class="img" src='<?php echo base_url() . "collection/original/" . $image->file ?>' style='max-width: 100%; min-width: 50%' />
         </div>
     </div>
 </div>

@@ -58,13 +58,30 @@ class UserObj {
 
         $this->images = $CI->IMC->getUserImages($this->id);
 
-        function personSort($a, $b) {
+        function pSort($a, $b) {
             return $a->date_time == $b->date_time ? 0 : ( $a->date_time > $b->date_time ) ? -1 : 1;
         }
-
-        usort($this->images, 'personSort');
-
+        usort($this->images, 'pSort');
+        
         return $this->images;
+    }
+    
+    function followUser($follow_id){        
+        $CI = & get_instance();
+        $CI->load->model('User_model', 'URM', TRUE);
+        
+        $bool = $this->URM->followUser($this->id, $follow_id);
+        
+        return $bool;
+    }
+    
+    function unFollowUser($following_id){
+        $CI = & get_instance();
+        $CI->load->model('User_model', 'URM', TRUE);
+        
+        $bool = $this->URM->followUser($this->id, $following_id);
+        
+        return $bool;
     }
     
     function getFollowingImages() {
