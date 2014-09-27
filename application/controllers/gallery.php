@@ -5,9 +5,23 @@ if (!defined('BASEPATH'))
 
 class Gallery extends MY_Controller {
 
-    public function index() {        
-        $data['user'] = $this->userObj;
+    public function index() {                
+        $this->load->library("imageClass", "", "IMC");
+        $data['user_images'] = $this->IMC->getAllImages();
+        $data['c'] = "flow";
+        
+        $this->load->view('include/head');
+        $this->load->view('include/head_navbar');
+
+        $this->load->view('gallery', $data);
+
+        $this->load->view('include/foot');
+        $this->load->view('include/footer');
+    }
+    
+    public function following() {
         $data['user_images'] = $this->userObj->getFollowingImages();
+        $data['c'] = "following";
         
         $this->load->view('include/head');
         $this->load->view('include/head_navbar');

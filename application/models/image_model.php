@@ -31,6 +31,18 @@ class Image_model extends CI_Model {
         }
     }
     
+    function getAllImages() {
+        $query = $this->db->get_where(TB_IMAGE);
+
+        if ($query->num_rows() > 0) {
+            $image = $query->result();
+            
+            return $image;
+        } else {
+            return FALSE;
+        }
+    }
+
     function getUserImages($user_id) {
         $where = array(
             "user_id" => $user_id
@@ -44,12 +56,13 @@ class Image_model extends CI_Model {
             return FALSE;
         }
     }
-    
-    function getFollowingUserImages($user_id) {
-        $where = array(
-            "user_id" => $user_id
-        );
-        $query = $this->db->get_where(TB_IMAGE);
+
+    function getFollowingUserImages($user_id) {       
+        $query = $this->db->query("SELECT *
+                                    FROM ".TB_IMAGE." i
+                                    WHERE EXISTS (SELECT *
+                                    FROM ".TB_FOLLOWING." f
+                                    WHERE f.follower_user_id = ".$user_id." AND f.following_user_id = i.user_id) OR i.user_id = ".$user_id." ORDER BY i.date_time DESC");
 
         if ($query->num_rows() > 0) {
             $image = $query->result();

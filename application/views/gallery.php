@@ -3,13 +3,24 @@
         cursor: pointer;
     }
 </style>
+
+<?php
+
+function echoA($d, $c) {
+    if ($d == $c) {
+        return "lictive";
+    } else {
+        return false;
+    }
+}
+?>
 <!-- Breadcrumbs - START -->
 <div class="background-clouds breadcrumbs-container">
     <div class="container">
         <ol class="breadcrumb">
-            <li><a href="index.html">Flow</a></li>
-            <li><a class="lictive" href="index.html">Following</a></li>
-            <li><a href="index.html">Activity</a></li>
+            <li><a class="<?php echo echoA("flow", $c); ?>" href="<?php echo base_url("gallery") ?>">Flow</a></li>
+            <li><a class="<?php echo echoA("following", $c); ?>" href="<?php echo base_url("gallery/following") ?>">Following</a></li>
+            <li><a class="<?php echo echoA("activity", $c); ?>" href="index.html">Activity</a></li>
         </ol>
     </div>
 </div>
@@ -35,7 +46,9 @@
                                 <b style="font-size: 17px"><?php echo $image->title ?></b><br />
                                 <small>
                                     <span style="font-size: 15px">
-                                        <?php echo $image->getImageUser()->firstname . " " . $image->getImageUser()->lastname; ?>
+                                        <a href="<?php echo base_url("profile/page/".$image->getImageUser()->username) ?>">
+                                            <?php echo $image->getImageUser()->firstname . " " . $image->getImageUser()->lastname; ?>
+                                        </a>
                                     </span>
                                 </small> 
 

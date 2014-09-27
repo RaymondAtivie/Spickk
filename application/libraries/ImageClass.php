@@ -54,13 +54,26 @@ class ImageClass {
         return $image;
     }
 
+    public function getAllImages() {
+        $CI = & get_instance();
+        $CI->load->model("Image_model", "IMM", TRUE);
+        $CI->load->library("obj/ImageObj", "", "IMO");
+
+        $result = $CI->IMM->getAllImages();
+        foreach ($result as $v) {
+            $images[] = clone $CI->IMO->getImageObj($v->id);
+        }
+
+        return $images;
+    }
+
     public function getUserFollowingImages($user_id) {
         $CI = & get_instance();
         $CI->load->model("Image_model", "IMM", TRUE);
         $CI->load->library("obj/ImageObj", "", "IMO");
 
         $result = $CI->IMM->getFollowingUserImages($user_id);
-        foreach ($result as $k => $v) {
+        foreach ($result as $v) {
             $images[] = clone $CI->IMO->getImageObj($v->id);
         }
 
@@ -72,7 +85,7 @@ class ImageClass {
         $CI->load->model("Image_model", "IMM", TRUE);
         $CI->load->library("obj/ImageObj", "", "IMO");
         $result = $CI->IMM->getUserImages($user_id);
-        
+
         foreach ($result as $k => $v) {
             $images[] = clone $CI->IMO->getImageObj($v->id);
         }
