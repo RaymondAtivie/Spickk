@@ -95,9 +95,9 @@ class UserObj {
     
     function getFollowingImages() {
         $CI = & get_instance();
-        $CI->load->library('ImageClass', "", 'IMC');
+        $CI->load->library('GalleryClass', "", 'GLC');
 
-        $this->images = $CI->IMC->getUserFollowingImages($this->id);
+        $this->images = $CI->GLC->getUserFollowingImages($this->id);
 
         function personSort($a, $b) {
             return $a->date_time == $b->date_time ? 0 : ( $a->date_time > $b->date_time ) ? -1 : 1;

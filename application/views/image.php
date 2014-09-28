@@ -15,7 +15,18 @@
             </div>
 
             <div class="col-md-1 col-sm-2">
-                <button title='Follow' type="button" class="btn btn-primary btn-md btn3d">Follow</button>
+                <?php if ($this->userObj->id != $image->getImageUser()->id) { ?>
+                    <?php if ($this->userObj->isFollowing($image->getImageUser()->id)) {
+                        $y = "hidden";
+                        $n = "";
+                    } else {
+                        $y = "";
+                        $n = "hidden";
+                    } ?>
+                    <button type="button" rel="<?php echo $image->getImageUser()->id ?>" class="btn btn-info <?php echo $y ?>" id="followBtn" >Follow</button>
+                    <button type="button" rel="<?php echo $image->getImageUser()->id ?>" class="btn btn-success <?php echo $n ?>" id="followingBtn" >Following</button>
+                    <!--<button type="button" class="btn btn-danger hidden" id="unfollowBtn" >Unfollow</button>-->
+<?php } ?>  
             </div>
 
             <div class='col-md-2 col-md-offset-2 col-sm-2'>
@@ -65,9 +76,9 @@
 
         <div class='col-md-5'>
             <h4>Tags</h4>
-            <?php foreach ($image->getImageTags() as $tag) { ?>
+<?php foreach ($image->getImageTags() as $tag) { ?>
                 <span class="label label-primary"><?php echo $tag ?></span>
-            <?php } ?>
+<?php } ?>
         </div>        
     </div>
 </div>
@@ -134,7 +145,7 @@
             <hr />
 
             <ul class="media-list">
-                <?php for ($i = 0; $i < 4; $i++) { ?>
+<?php for ($i = 0; $i < 4; $i++) { ?>
                     <li class="media blog-entry">
                         <div class="pull-left">
                             <img class="media-object" src="http://placehold.it/75" alt="...">
@@ -149,7 +160,7 @@
                             </div>
                         </div>
                     </li>
-                <?php } ?>
+<?php } ?>
             </ul>
         </div>
         <div class="col-md-5">
@@ -172,21 +183,21 @@
 
                                 <div class="item active">
                                     <div class="row">
-                                        <?php for ($i = 0; $i < 3; $i++) { ?>
+                                <?php for ($i = 0; $i < 3; $i++) { ?>
                                             <div class="col-md-4"><a href="#x" ><img src="http://placehold.it/450" alt="Image" style="max-width:100%;" /></a></div>
                                         <?php } ?>
                                     </div><!--/row-fluid-->
                                 </div><!--/item-->
 
-                                <?php for ($i = 0; $i < 2; $i++) { ?>
+<?php for ($i = 0; $i < 2; $i++) { ?>
                                     <div class="item">
                                         <div class="row">
-                                            <?php for ($i = 0; $i < 3; $i++) { ?>
+    <?php for ($i = 0; $i < 3; $i++) { ?>
                                                 <div class="col-md-4"><a href="#x" ><img src="http://placehold.it/450" alt="Image" style="max-width:100%;" /></a></div>
-                                            <?php } ?>
+    <?php } ?>
                                         </div><!--/row-fluid-->
                                     </div><!--/item-->
-                                <?php } ?>
+<?php } ?>
 
                             </div><!--/carousel-inner-->
 
@@ -202,3 +213,43 @@
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#followingBtn").hover(
+                function () {
+                    $(this).removeClass("btn-success");
+                    $(this).addClass("btn-danger");
+                    $(this).text("Unfollow");
+                },
+                function () {
+                    $(this).addClass("btn-success");
+                    $(this).removeClass("btn-danger");
+                    $(this).text("Following");
+                }
+        );
+
+
+        $("#followingBtn").click(function () {
+            var following_id = $(this).attr("rel");
+            $.get("<?php echo base_url("profile/unfollowUser") ?>/" + following_id, function (data, status) {
+                console.log("Data: " + data + " -- Status: " + status);
+                if (status === "success" && data === "1") {
+                    $("#followingBtn").addClass("hidden");
+                    $("#followBtn").removeClass("hidden");
+                }
+            });
+        });
+
+        $("#followBtn").click(function () {
+            var follow_id = $(this).attr("rel");
+            $.get("<?php echo base_url("profile/followUser") ?>/" + follow_id, function (data, status) {
+                console.log("Data: " + data + " -- Status: " + status);
+                if (status === "success" && data === "1") {
+                    $("#followBtn").addClass("hidden");
+                    $("#followingBtn").removeClass("hidden");
+                }
+            });
+        });
+    });
+</script>

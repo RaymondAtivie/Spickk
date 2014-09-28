@@ -19,9 +19,9 @@
                         <a title="Search" href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-search"></span></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <form class="form-inline" role="form">
+                                <form class="form-inline" action="<?php echo base_url("gallery/search") ?>" method="POST" role="form">
                                     <div class="input-group">
-                                        <input type="text" class="form-control">
+                                        <input type="text" name="search" class="form-control">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="submit">Search</button>
                                         </span>

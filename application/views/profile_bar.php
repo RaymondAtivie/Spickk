@@ -314,7 +314,7 @@
             </div>
             <div class="row overview">
                 <div class="col-md-4 col-sm-4 col-xs-4 user-pad text-center">
-                    <h3>FOLLOWERS</h3>
+                    <h3>FOLLOWERSSSSS</h3>
                     <h4>2,784</h4>
                 </div>
                 <div class="col-md-4 col-sm-4 col-xs-4 user-pad text-center">
