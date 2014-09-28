@@ -52,6 +52,7 @@ define("TB_USER_GALLERY", "user_gallery");
 define("TB_IMAGE", "image");
 define("TB_IMAGE_COMMENTS", "image_comments");
 define("TB_IMAGE_LIKES", "image_likes");
+define("TB_IMAGE_FAVS", "image_favs");
 define("TB_IMAGE_VIEWS", "image_views");
 define("TB_ALBUM", "album");
 define("TB_FOLLOWING", "following");

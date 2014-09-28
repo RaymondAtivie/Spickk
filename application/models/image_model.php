@@ -14,7 +14,13 @@ class Image_model extends CI_Model {
             "tags" => $tags,
             "user_id" => $user_id
         );
-        $this->db->insert(TB_IMAGE, $set);
+        $result = $this->db->insert(TB_IMAGE, $set);
+        
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     function getImage($id) {
@@ -71,7 +77,109 @@ class Image_model extends CI_Model {
             return FALSE;
         }
     }
+    
+    public function likeImage($user_id, $image_id) {
+        $set = array(
+            "user_id"=>$user_id,
+            "image_id"=>$image_id
+        );
+        $result = $this->db->insert(TB_IMAGE_LIKES, $set); 
+        
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public function unLikeImage($user_id, $image_id) {
+        $where = array(
+            "user_id"=>$user_id,
+            "image_id"=>$image_id
+        );
+        $result = $this->db->delete(TB_IMAGE_LIKES, $where); 
+        
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public function checkLikeImage($user_id, $image_id) {
+        $where = array(
+            "user_id" => $user_id,
+            "image_id" => $image_id
+        );
+        $query = $this->db->get_where(TB_IMAGE_LIKES, $where);
+
+        if ($query->num_rows() > 0) {
+            $num = $query->result()[0];
+            return $num->id;
+        } else {
+            return false;
+        }
+    }
+    
+    public function countLikes($image_id) {
+        $where = array(
+            "image_id" => $image_id
+        );
+        $query = $this->db->get_where(TB_IMAGE_LIKES, $where);
+        
+        return $query->num_rows();
+    }
+    
+    public function favImage($user_id, $image_id) {
+        $set = array(
+            "user_id"=>$user_id,
+            "image_id"=>$image_id
+        );
+        $result = $this->db->insert(TB_IMAGE_FAVS, $set); 
+        
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public function unFavImage($user_id, $image_id) {
+        $where = array(
+            "user_id"=>$user_id,
+            "image_id"=>$image_id
+        );
+        $result = $this->db->delete(TB_IMAGE_FAVS, $where); 
+        
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public function checkFavImage($user_id, $image_id) {
+        $where = array(
+            "user_id" => $user_id,
+            "image_id" => $image_id
+        );
+        $query = $this->db->get_where(TB_IMAGE_FAVS, $where);
+
+        if ($query->num_rows() > 0) {
+            $num = $query->result()[0];
+            return $num->id;
+        } else {
+            return false;
+        }
+    }
+    
+    public function countFavs($image_id) {
+        $where = array(
+            "image_id" => $image_id
+        );
+        $query = $this->db->get_where(TB_IMAGE_FAVS, $where);
+        
+        return $query->num_rows();
+    }
 
 }
-
-?>

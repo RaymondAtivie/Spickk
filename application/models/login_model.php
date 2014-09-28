@@ -31,16 +31,23 @@ class Login_model extends CI_Model {
     }
 
     function loginUser($usernameEmail, $password) {
-        $where_or = array(
-            "username" => $usernameEmail,
-            "email" => $usernameEmail);
+
         $where = array(
+            "username" => $usernameEmail,
+            "password" => $password
+        );
+        $where2 = array(
+            "email" => $usernameEmail,
             "password" => $password
         );
 
-        $this->db->or_where($where_or);
         $this->db->where($where);
         $query = $this->db->get(TB_USERS);
+
+        if ($query->num_rows < 1) {
+            $this->db->where($where2);
+            $query = $this->db->get(TB_USERS);
+        }
 
         if ($query->num_rows() > 0) {
             $row = $query->result()[0];
@@ -52,7 +59,7 @@ class Login_model extends CI_Model {
                 );
                 $this->load->library("obj/UserObj", "", "URO");
                 $this->URO->getUserObj($params);
-                
+
                 return $this->URO;
             } elseif ($row->status == 'pending') {
                 return 'pending';

@@ -1,3 +1,8 @@
+<style>
+    .btnClicked{
+        background-color: goldenrod;
+    }
+</style>
 <div class='background-clouds'>
     <div class="container" style='padding-top: 20px; padding-bottom: 10px'>
         <div class="row">
@@ -8,25 +13,27 @@
                     </a>
                     <div class="media-body">
                         <h3 class="media-heading"><b><?php echo $image->title ?></b></h3>
-                        <h4 class="media-heading"><?php echo $image->getImageUser()->firstname . " " . $image->getImageUser()->lastname; ?></h4>
+                        <h4 class="media-heading"><a href="<?php echo base_url("profile/page") . "/" . $image->getImageUser()->username; ?>"><?php echo $image->getImageUser()->firstname . " " . $image->getImageUser()->lastname; ?></a></h4>
                         <p><span class="label label-info"><?php echo $image->getImageUser()->getCategory() ?></span> </p>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-1 col-sm-2">
-                <?php if ($this->userObj->id != $image->getImageUser()->id) { ?>
-                    <?php if ($this->userObj->isFollowing($image->getImageUser()->id)) {
+                <?php
+                if ($this->userObj->id != $image->getImageUser()->id) {
+                    if ($this->userObj->isFollowing($image->getImageUser()->id)) {
                         $y = "hidden";
                         $n = "";
                     } else {
                         $y = "";
                         $n = "hidden";
-                    } ?>
-                    <button type="button" rel="<?php echo $image->getImageUser()->id ?>" class="btn btn-info <?php echo $y ?>" id="followBtn" >Follow</button>
+                    }
+                    ?>
+                    <button type="button" rel="<?php echo $image->getImageUser()->id ?>" class="btn btn-default <?php echo $y ?>" id="followBtn" >Follow</button>
                     <button type="button" rel="<?php echo $image->getImageUser()->id ?>" class="btn btn-success <?php echo $n ?>" id="followingBtn" >Following</button>
                     <!--<button type="button" class="btn btn-danger hidden" id="unfollowBtn" >Unfollow</button>-->
-<?php } ?>  
+                <?php } ?>  
             </div>
 
             <div class='col-md-2 col-md-offset-2 col-sm-2'>
@@ -36,20 +43,34 @@
                         <td>&nbsp;&nbsp;Views</td>
                     </tr>
                     <tr>
-                        <td style='text-align: right'><b>122</b></td>
+                        <td style='text-align: right'><b><?php echo $image->numLikes() ?></b></td>
                         <td>&nbsp;&nbsp;Likes</td>
                     </tr>
                     <tr>
-                        <td style='text-align: right'><b>1234</b></td>
+                        <td style='text-align: right'><b><?php echo $image->numFavs() ?></b></td>
                         <td>&nbsp;&nbsp;Favorites</td>
                     </tr>
                 </table>
             </div>
             <div class='col-md-2 col-sm-2'>                
                 <p>
-                    <button title='Like' type="button" class="btn btn-primary btn-lg btn3d"><span class="fa fa-thumbs-up"></span></button>
-                    <button title='Favorite' type="button" class="btn btn-danger btn-lg btn3d"><span class="fa fa-star"></span></button>
-                    <button title='Favorite' type="button" class="btn btn-success btn-lg btn3d"><span class="fa fa-search"></span></button>
+                    <?php
+                    if ($this->userObj->id != $image->getImageUser()->id) {
+                        if (!$this->userObj->isLikedImage($image->id)) {
+                            ?>
+                            <button title='Like' id="btnLike" rel="<?php echo $image->id ?>" type="button" class="btn btn-default btn-lg btn3d"><span class="fa fa-thumbs-up"></span></button>
+                        <?php } else { ?>
+                            <button title='Unlike' id="btnLike" rel="<?php echo $image->id ?>" type="button" class="btn btn-success btn-lg btn3d"><span class="fa fa-thumbs-up"></span></button>
+                            <?php
+                        }
+                    }
+                    ?>
+                    <?php if (!$this->userObj->isFavedImage($image->id)) { ?>
+                        <button title='Favorite' id="btnFav" rel="<?php echo $image->id ?>" type="button" class="btn btn-default btn-lg btn3d"><span class="fa fa-star"></span></button>
+                    <?php } else { ?>
+                        <button title='Unfavorite' id="btnFav" rel="<?php echo $image->id ?>" type="button" class="btn btn-success btn-lg btn3d"><span class="fa fa-star"></span></button>
+                    <?php } ?>
+                    <button title='Zoom' type="button" class="btn btn-primary btn-lg btn3d"><span class="fa fa-search"></span></button>
                 </p>
 
             </div>
@@ -76,9 +97,9 @@
 
         <div class='col-md-5'>
             <h4>Tags</h4>
-<?php foreach ($image->getImageTags() as $tag) { ?>
+            <?php foreach ($image->getImageTags() as $tag) { ?>
                 <span class="label label-primary"><?php echo $tag ?></span>
-<?php } ?>
+            <?php } ?>
         </div>        
     </div>
 </div>
@@ -145,7 +166,7 @@
             <hr />
 
             <ul class="media-list">
-<?php for ($i = 0; $i < 4; $i++) { ?>
+                <?php for ($i = 0; $i < 4; $i++) { ?>
                     <li class="media blog-entry">
                         <div class="pull-left">
                             <img class="media-object" src="http://placehold.it/75" alt="...">
@@ -160,7 +181,7 @@
                             </div>
                         </div>
                     </li>
-<?php } ?>
+                <?php } ?>
             </ul>
         </div>
         <div class="col-md-5">
@@ -183,21 +204,21 @@
 
                                 <div class="item active">
                                     <div class="row">
-                                <?php for ($i = 0; $i < 3; $i++) { ?>
+                                        <?php for ($i = 0; $i < 3; $i++) { ?>
                                             <div class="col-md-4"><a href="#x" ><img src="http://placehold.it/450" alt="Image" style="max-width:100%;" /></a></div>
                                         <?php } ?>
                                     </div><!--/row-fluid-->
                                 </div><!--/item-->
 
-<?php for ($i = 0; $i < 2; $i++) { ?>
+                                <?php for ($i = 0; $i < 2; $i++) { ?>
                                     <div class="item">
                                         <div class="row">
-    <?php for ($i = 0; $i < 3; $i++) { ?>
+                                            <?php for ($i = 0; $i < 3; $i++) { ?>
                                                 <div class="col-md-4"><a href="#x" ><img src="http://placehold.it/450" alt="Image" style="max-width:100%;" /></a></div>
-    <?php } ?>
+                                            <?php } ?>
                                         </div><!--/row-fluid-->
                                     </div><!--/item-->
-<?php } ?>
+                                <?php } ?>
 
                             </div><!--/carousel-inner-->
 
@@ -251,5 +272,58 @@
                 }
             });
         });
+
+
+
+        $("#btnLike").click(function () {
+            var image_id = $(this).attr("rel");
+            var like = $(this).attr("title");
+            var url = "";
+            if (like === "Like") {
+                url = "<?php echo base_url("image/likeImage") ?>/";
+            } else {
+                url = "<?php echo base_url("image/unLikeImage") ?>/";
+            }
+            $.get(url + image_id, function (data, status) {
+                console.log("Data: " + data + " -- Status: " + status);
+                if (status === "success" && data === "1") {
+                    if (like === "Like") {
+                        $("#btnLike").addClass("btn-success");
+                        $("#btnLike").removeClass("btn-default");
+                        $("#btnLike").attr({"title": "Unlike"});
+                    } else {
+                        $("#btnLike").addClass("btn-default");
+                        $("#btnLike").removeClass("btn-success");
+                        $("#btnLike").attr({"title": "Like"});
+                    }
+                }
+            });
+        });
+        
+        $("#btnFav").click(function () {
+            var image_id = $(this).attr("rel");
+            var like = $(this).attr("title");
+            var url = "";
+            if (like === "Favorite") {
+                url = "<?php echo base_url("image/favImage") ?>/";
+            } else {
+                url = "<?php echo base_url("image/unFavImage") ?>/";
+            }
+            $.get(url + image_id, function (data, status) {
+                console.log("Data: " + data + " -- Status: " + status);
+                if (status === "success" && data === "1") {
+                    if (like === "Favorite") {
+                        $("#btnFav").addClass("btn-success");
+                        $("#btnFav").removeClass("btn-default");
+                        $("#btnFav").attr({"title": "Unfavorite"});
+                    } else {
+                        $("#btnFav").addClass("btn-default");
+                        $("#btnFav").removeClass("btn-success");
+                        $("#btnFav").attr({"title": "Favorite"});
+                    }
+                }
+            });
+        });
+
     });
 </script>

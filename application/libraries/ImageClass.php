@@ -101,6 +101,90 @@ class ImageClass {
 
         $layer->save($dirPath, $filename, $createFolders, $backgroundColor, $imageQuality);
     }
+    
+    public function likeImage($user_id, $image_id) {
+        if (!$this->checkLikeImage($user_id, $image_id)) {
+            $CI = &get_instance();
+            $CI->load->model("image_model", "IMM", TRUE);
+            $result = $CI->IMM->likeImage($user_id, $image_id);
+
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    public function unLikeImage($user_id, $image_id) {
+        if ($this->checkLikeImage($user_id, $image_id)) {
+            $CI = &get_instance();
+            $CI->load->model("image_model", "IMM", TRUE);
+            $result = $CI->IMM->unLikeImage($user_id, $image_id);
+
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    public function checkLikeImage($user_id, $image_id) {
+        $CI = &get_instance();
+        $CI->load->model("image_model", "IMM", TRUE);
+
+        $result = $CI->IMM->checkLikeImage($user_id, $image_id);
+
+        return $result;
+    }
+    
+    public function numLikes($image_id) {
+        $CI = &get_instance();
+        $CI->load->model("image_model", "IMM", TRUE);
+
+        $result = $CI->IMM->countLikes($image_id);
+
+        return $result;
+    }
+    
+    public function favImage($user_id, $image_id) {
+        if (!$this->checkFavImage($user_id, $image_id)) {
+            $CI = &get_instance();
+            $CI->load->model("image_model", "IMM", TRUE);
+            $result = $CI->IMM->favImage($user_id, $image_id);
+
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    public function unFavImage($user_id, $image_id) {
+        if ($this->checkFavImage($user_id, $image_id)) {
+            $CI = &get_instance();
+            $CI->load->model("image_model", "IMM", TRUE);
+            $result = $CI->IMM->unFavImage($user_id, $image_id);
+
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    public function checkFavImage($user_id, $image_id) {
+        $CI = &get_instance();
+        $CI->load->model("image_model", "IMM", TRUE);
+
+        $result = $CI->IMM->checkFavImage($user_id, $image_id);
+
+        return $result;
+    }
+    
+    public function numFavs($image_id) {
+        $CI = &get_instance();
+        $CI->load->model("image_model", "IMM", TRUE);
+
+        $result = $CI->IMM->countFavs($image_id);
+
+        return $result;
+    }
 
 }
 

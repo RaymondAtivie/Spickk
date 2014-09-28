@@ -61,38 +61,39 @@ class UserObj {
         function pSort($a, $b) {
             return $a->date_time == $b->date_time ? 0 : ( $a->date_time > $b->date_time ) ? -1 : 1;
         }
+
         usort($this->images, 'pSort');
-        
+
         return $this->images;
     }
-    
-    function followUser($follow_id){        
+
+    function followUser($follow_id) {
         $CI = & get_instance();
         $CI->load->model('User_model', 'URM', TRUE);
-        
+
         $bool = $CI->URM->followUser($this->id, $follow_id);
-        
+
         return $bool;
     }
-    
-    function unFollowUser($following_id){
+
+    function unFollowUser($following_id) {
         $CI = & get_instance();
         $CI->load->model('User_model', 'URM', TRUE);
-        
+
         $bool = $CI->URM->unfollowUser($this->id, $following_id);
-        
+
         return $bool;
     }
-    
-    function isFollowing($following_id){
+
+    function isFollowing($following_id) {
         $CI = & get_instance();
         $CI->load->model('User_model', 'URM', TRUE);
-        
+
         $bool = $CI->URM->checkFollowing($this->id, $following_id);
-        
+
         return $bool;
     }
-    
+
     function getFollowingImages() {
         $CI = & get_instance();
         $CI->load->library('GalleryClass', "", 'GLC');
@@ -108,6 +109,77 @@ class UserObj {
         return $this->images;
     }
 
+    function likeImage($image_id) {
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+
+        $bool = $CI->IMC->likeImage($this->id, $image_id);
+
+        return $bool;
+    }
+
+    function unLikeImage($image_id) {
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+
+        $bool = $CI->IMC->unLikeImage($this->id, $image_id);
+
+        return $bool;
+    }
+
+    function isLikedImage($image_id) {
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+
+        $bool = $CI->IMC->checkLikeImage($this->id, $image_id);
+
+        return $bool;
+    }
+    
+    function numFollowers(){
+        $CI = & get_instance();
+        $CI->load->model('User_model', 'URM', TRUE);
+
+        $num = $CI->URM->countFollowers($this->id);
+
+        return $num;
+    }
+    
+    function numFavs(){
+        $CI = & get_instance();
+        $CI->load->model('User_model', 'URM', TRUE);
+
+        $num = $CI->URM->countFavs($this->id);
+
+        return $num;
+    }
+
+    function favImage($image_id) {
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+
+        $bool = $CI->IMC->favImage($this->id, $image_id);
+
+        return $bool;
+    }
+
+    function unFavImage($image_id) {
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+
+        $bool = $CI->IMC->unFavImage($this->id, $image_id);
+
+        return $bool;
+    }
+
+    function isFavedImage($image_id) {
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+
+        $bool = $CI->IMC->checkFavImage($this->id, $image_id);
+
+        return $bool;
+    }
 }
 
 /* End of file Someclass.php */

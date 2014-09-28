@@ -69,5 +69,23 @@ class User_model extends CI_Model {
             return false;
         }
     }
+    
+    function countFollowers($user_id){
+        $where = array(
+            "following_user_id" => $user_id
+        );
+        $query = $this->db->get_where(TB_FOLLOWING, $where);
+        
+        return $query->num_rows();
+    }
+    
+    function countUserFavs($user_id){
+        $where = array(
+            "user_id" => $user_id
+        );
+        $query = $this->db->get_where(TB_IMAGE_FAVS, $where);
+        
+        return $query->num_rows();
+    }
 
 }

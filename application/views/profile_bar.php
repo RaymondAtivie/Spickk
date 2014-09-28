@@ -298,7 +298,7 @@
                             <a href="" class="btn btn-info" ><i class="fa fa-pencil"></i>&nbsp;&nbsp; Edit Profile</a>
                         <?php } else { ?>
                             <?php if($this->userObj->isFollowing($user->id)){ $y = "hidden"; $n = ""; }else{ $y=""; $n="hidden"; }?>
-                            <button type="button" rel="<?php echo $user->id ?>" class="btn btn-info <?php echo $y ?>" id="followBtn" >Follow</button>
+                            <button type="button" rel="<?php echo $user->id ?>" class="btn btn-default <?php echo $y ?>" id="followBtn" >Follow</button>
                             <button type="button" rel="<?php echo $user->id ?>" class="btn btn-success <?php echo $n ?>" id="followingBtn" >Following</button>
                             <!--<button type="button" class="btn btn-danger hidden" id="unfollowBtn" >Unfollow</button>-->
                         <?php } ?>  
@@ -314,8 +314,8 @@
             </div>
             <div class="row overview">
                 <div class="col-md-4 col-sm-4 col-xs-4 user-pad text-center">
-                    <h3>FOLLOWERSSSSS</h3>
-                    <h4>2,784</h4>
+                    <h3>FOLLOWERS</h3>
+                    <h4><?php echo $user->numFollowers() ?></h4>
                 </div>
                 <div class="col-md-4 col-sm-4 col-xs-4 user-pad text-center">
                     <h3>VIEWS</h3>

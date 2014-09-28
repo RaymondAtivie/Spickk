@@ -53,6 +53,22 @@ class ImageObj {
         
         return $tags;
     }
+    
+    function numLikes(){
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+        
+        $num = $CI->IMC->numLikes($this->id);
+        return $num;
+    }
+    
+    function numFavs(){
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+        
+        $num = $CI->IMC->numFavs($this->id);
+        return $num;
+    }
 }
 
 /* End of file Someclass.php */
