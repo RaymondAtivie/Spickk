@@ -231,6 +231,33 @@ class ImageClass {
         }
     }
     
+    public function addImageView($image_id) {
+        
+        $CI = & get_instance();
+        $CI->load->model("image_model", "IMM", TRUE);
+                
+        $identifier = $_SERVER['REMOTE_ADDR'];
+        if($CI->loggedIn){
+            $identifier .= "_".$CI->userObj->id;
+        }
+
+        if(!$CI->IMM->checkIfViewed($image_id, $identifier)){
+            $result = $CI->IMM->addImageView($image_id, $identifier);
+        }else{
+            $result = false;
+        }        
+
+        return $result;
+    }
+    
+    public function numViews($image_id) {
+        $CI = &get_instance();
+        $CI->load->model("image_model", "IMM", TRUE);
+
+        $result = $CI->IMM->countImageViews($image_id);
+
+        return $result;
+    }
 }
 
 /* End of file Someclass.php */

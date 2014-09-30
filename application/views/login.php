@@ -169,12 +169,12 @@ $(document).ready(function(){
     $("#con").hover(function(){
         $(this).animate({"opacity":"1"});
     }, function(){
-        $(this).animate({"opacity":"0.5"});
+        $(this).animate({"opacity":"0.75"});
     });
 });
 </script>
 
-<div id="con" style="opacity: 0.5" class="container">
+<div id="con" style="opacity: 0.75" class="container">
     <div  class="login-container col-md-6 col-md-offset-3" style="margin-top: 5%;">
 
         <div class="avatar">

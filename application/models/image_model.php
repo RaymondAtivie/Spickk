@@ -237,4 +237,41 @@ class Image_model extends CI_Model {
             return FALSE;
         }
     }
+    
+    function addImageView($image_id, $identifier){
+        $set = array(
+            "image_id" => $image_id,
+            "identifier" => $identifier
+        );
+        $result = $this->db->insert(TB_IMAGE_VIEWS, $set);
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function checkIfViewed($image_id, $identifier){
+        $where = array(
+            "image_id" => $image_id,
+            "identifier" => $identifier
+        );
+        $result = $this->db->get_where(TB_IMAGE_VIEWS, $where);
+
+        if($result->num_rows() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    function countImageViews($image_id){
+        $where = array(
+            "image_id" => $image_id
+        );
+        $result = $this->db->get_where(TB_IMAGE_VIEWS, $where);
+
+        return $result->num_rows();
+    }
 }

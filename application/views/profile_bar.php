@@ -327,7 +327,7 @@
                 </div>
                 <div class="col-md-4 col-sm-4 col-xs-4 user-pad text-center">
                     <h3>VIEWS</h3>
-                    <h4>456</h4>
+                    <h4><?php echo $user->numProfileView() ?></h4>
                 </div>
                 <div class="col-md-4 col-sm-4 col-xs-4 user-pad text-center">
                     <h3>APPRECIATIONS</h3>

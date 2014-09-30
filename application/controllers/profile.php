@@ -37,6 +37,9 @@ class Profile extends MY_Controller {
             $data['same'] = false;
         }
 
+        $this->load->library("UserClass", "", "URC");
+        $this->URC->addProfileView($username);
+        
         $data['user'] = $user;
         $data['user_images'] = $user->getImages();
         

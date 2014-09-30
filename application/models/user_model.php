@@ -87,5 +87,41 @@ class User_model extends CI_Model {
         
         return $query->num_rows();
     }
+    
+    function addProfileView($profile_username, $identifier){
+        $set = array(
+            "profile_username" => $profile_username,
+            "identifier" => $identifier
+        );
+        $result = $this->db->insert(TB_PROFILE_VIEWS, $set);
 
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function checkProfileViewed($profile_username, $identifier){
+        $where = array(
+            "profile_username" => $profile_username,
+            "identifier" => $identifier
+        );
+        $result = $this->db->get_where(TB_PROFILE_VIEWS, $where);
+
+        if($result->num_rows() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    function countProfileViews($profile_username) {
+        $where = array(
+            "profile_username" => $profile_username
+        );
+        $query = $this->db->get_where(TB_PROFILE_VIEWS, $where);
+        
+        return $query->num_rows();
+    }
 }

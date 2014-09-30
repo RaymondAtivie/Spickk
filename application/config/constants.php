@@ -56,5 +56,6 @@ define("TB_IMAGE_FAVS", "image_favs");
 define("TB_IMAGE_VIEWS", "image_views");
 define("TB_ALBUM", "album");
 define("TB_FOLLOWING", "following");
+define("TB_PROFILE_VIEWS", "profile_views");
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

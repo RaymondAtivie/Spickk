@@ -70,6 +70,14 @@ class ImageObj {
         return $num;
     }
     
+    function numViews(){
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+        
+        $num = $CI->IMC->numViews($this->id);
+        return $num;
+    }
+    
     function getComments(){
         $CI = & get_instance();
         $CI->load->library('ImageClass', "", 'IMC');
@@ -77,6 +85,14 @@ class ImageObj {
         $comments = $CI->IMC->getImageComments($this->id);
         return $comments;
     }   
+    
+    function addView(){
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+        
+        $result = $CI->IMC->addImageView($this->id);
+        return $result;
+    }
     
 }
 

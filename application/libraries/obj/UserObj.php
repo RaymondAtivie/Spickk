@@ -190,6 +190,15 @@ class UserObj {
 
         return $bool;
     }
+    
+    function numProfileView(){
+        $CI = & get_instance();
+        $CI->load->library('UserClass', "", 'URC');
+
+        $num = $CI->URC->getProfileCount($this->username);
+        
+        return $num;
+    }
 }
 
 /* End of file Someclass.php */
