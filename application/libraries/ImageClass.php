@@ -101,7 +101,7 @@ class ImageClass {
 
         $layer->save($dirPath, $filename, $createFolders, $backgroundColor, $imageQuality);
     }
-    
+
     public function likeImage($user_id, $image_id) {
         if (!$this->checkLikeImage($user_id, $image_id)) {
             $CI = &get_instance();
@@ -134,7 +134,7 @@ class ImageClass {
 
         return $result;
     }
-    
+
     public function numLikes($image_id) {
         $CI = &get_instance();
         $CI->load->model("image_model", "IMM", TRUE);
@@ -143,7 +143,7 @@ class ImageClass {
 
         return $result;
     }
-    
+
     public function favImage($user_id, $image_id) {
         if (!$this->checkFavImage($user_id, $image_id)) {
             $CI = &get_instance();
@@ -176,7 +176,7 @@ class ImageClass {
 
         return $result;
     }
-    
+
     public function numFavs($image_id) {
         $CI = &get_instance();
         $CI->load->model("image_model", "IMM", TRUE);
@@ -184,6 +184,51 @@ class ImageClass {
         $result = $CI->IMM->countFavs($image_id);
 
         return $result;
+    }
+
+    public function makeImageComment($image_id, $user_id, $comment, $guest_fullname = NULL) {
+        $CI = & get_instance();
+        $CI->load->model("image_model", "IMM", TRUE);
+
+        $result = $CI->IMM->makeImageComment($image_id, $user_id, $comment, $guest_fullname);
+
+        return $result;
+    }
+
+    public function getImageComments($image_id) {
+        $CI = & get_instance();
+        $CI->load->model("Image_model", "IMM", TRUE);
+        $CI->load->library("obj/UserObj", "", "URO");
+
+        $result = $CI->IMM->getImageComments($image_id);
+
+        if ($result) {
+            $i = 0;
+            foreach ($result as $v) {
+                if ($v->user_id != 0) {
+                    $param = array(
+                        "type" => "id",
+                        "value" => $v->user_id
+                    );
+                    $tmpObj = clone $CI->URO->getUserObj($param);
+                    $users[$i]['fullname'] = $tmpObj->firstname . " " . $tmpObj->lastname;
+                    $users[$i]['username'] = $tmpObj->username;
+                    $users[$i]['profile_img'] = $tmpObj->profile_img;
+                    $users[$i]['comment'] = $v->comment;
+                    $users[$i]['date_time'] = $v->date_time;
+                } else {
+                    $users[$i]['fullname'] = $v->guest_fullname;
+                    $users[$i]['profile_img'] = "unknown.jpg";
+                    $users[$i]['comment'] = $v->comment;
+                    $users[$i]['date_time'] = $v->date_time;
+                }
+                $i++;
+            }
+
+            return $users;
+        } else {
+            return false;
+        }
     }
 
 }

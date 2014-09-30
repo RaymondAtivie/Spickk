@@ -164,8 +164,18 @@
     }
 </style>
 
-<div class="container">
-    <div class="login-container col-md-6 col-md-offset-3" style="margin-top: 5%; ">
+<script>
+$(document).ready(function(){
+    $("#con").hover(function(){
+        $(this).animate({"opacity":"1"});
+    }, function(){
+        $(this).animate({"opacity":"0.5"});
+    });
+});
+</script>
+
+<div id="con" style="opacity: 0.5" class="container">
+    <div  class="login-container col-md-6 col-md-offset-3" style="margin-top: 5%;">
 
         <div class="avatar">
             <img src='<?php echo base_url() ?>assets/img/jquery.png' alt='logo'/>
@@ -174,14 +184,7 @@
         </div>
 
 
-        <?php if ($this->session->flashdata("msgbox")) { ?>
-            <div class="alert alert-<?php echo $this->session->flashdata("msgbox") ?>">
-                <button type="button" class="close" data-dismiss="alert">
-                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                </button>
-                <?php echo $this->session->flashdata("msgmsg") ?>
-            </div>
-        <?php } ?>
+        <?php $this->handler->msgBox() ?>
 
         <div class="form-box">
             <form role="form" id='regForm' action='<?php echo base_url("login/register") ?>' method="POST" >

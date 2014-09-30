@@ -54,10 +54,10 @@ class Profile extends MY_Controller {
         echo $result;
      
         if($result){
-            $this->session->set_flashdata("msgBox", "success");
+            $this->session->set_flashdata("msgbox", "success");
             $this->session->set_flashdata("msgmsg", "Successfully Followed");
         }else{            
-            $this->session->set_flashdata("msgBox", "danger");
+            $this->session->set_flashdata("msgbox", "danger");
             $this->session->set_flashdata("msgmsg", "unsuccessfully unfollowed");
         }
     }
@@ -68,10 +68,10 @@ class Profile extends MY_Controller {
         echo $result;
      
         if($result){
-            $this->session->set_flashdata("msgBox", "success");
+            $this->session->set_flashdata("msgbox", "success");
             $this->session->set_flashdata("msgmsg", "Successfully Followed");
         }else{            
-            $this->session->set_flashdata("msgBox", "danger");
+            $this->session->set_flashdata("msgbox", "danger");
             $this->session->set_flashdata("msgmsg", "unsuccessfully unfollowed");
         }
     }

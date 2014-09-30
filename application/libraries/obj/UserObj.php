@@ -29,7 +29,8 @@ class UserObj {
         $user = $CI->URM->getUser($usernameEmailID, $email_username_id);
 
         if (!$user) {
-            //echo "USER DOESNT EXIST - (user object(libraries/obj/userobj.php) recieved EMAIL, USERNAME or ID of non existent user)";
+            echo "USER DOESNT EXIST - (user object(libraries/obj/userobj.php) recieved EMAIL, USERNAME or ID of non existent user)";
+            print_r($params);
             return FALSE;
         } else {
             foreach ($user as $k => $v) {
@@ -177,6 +178,15 @@ class UserObj {
         $CI->load->library('ImageClass', "", 'IMC');
 
         $bool = $CI->IMC->checkFavImage($this->id, $image_id);
+
+        return $bool;
+    }
+    
+    function commentImage($image_id, $comment){
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+
+        $bool = $CI->IMC->makeImageComment($image_id, $this->id, $comment);
 
         return $bool;
     }

@@ -181,5 +181,60 @@ class Image_model extends CI_Model {
         
         return $query->num_rows();
     }
+    
+    private function commentUserImage($image_id, $comment, $user_id) {
+        $set = array(
+            "user_id"=>$user_id,
+            "image_id"=>$image_id,
+            "comment"=>$comment
+        );
+        $result = $this->db->insert(TB_IMAGE_COMMENTS, $set); 
+        
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    private function commentGuestImage($image_id, $comment, $guest_fullname) {
+        $set = array(
+            "user_id"=>0,
+            "image_id"=>$image_id,
+            "comment"=>$comment,
+            "guest_fullname"=>$guest_fullname
+        );
+        $result = $this->db->insert(TB_IMAGE_COMMENTS, $set); 
+        
+        if($result){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public function makeImageComment($image_id, $user_id, $comment, $guest_fullname=NULL) {
+        if($user_id == 0){
+            $result = $this->commentGuestImage($image_id, $comment, $guest_fullname);
+        }else{
+            $result = $this->commentUserImage($image_id, $comment, $user_id);
+        }
+        
+        return $result;
+    }
 
+    public function getImageComments($image_id){
+        $where = array(
+            "image_id" => $image_id
+        );
+        $this->db->order_by("date_time", "desc");
+        $query = $this->db->get_where(TB_IMAGE_COMMENTS, $where);
+
+        if ($query->num_rows() > 0) {
+            $comments = $query->result();
+            return $comments;
+        } else {
+            return FALSE;
+        }
+    }
 }

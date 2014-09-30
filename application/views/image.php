@@ -20,19 +20,21 @@
             </div>
 
             <div class="col-md-1 col-sm-2">
-                <?php
-                if ($this->userObj->id != $image->getImageUser()->id) {
-                    if ($this->userObj->isFollowing($image->getImageUser()->id)) {
-                        $y = "hidden";
-                        $n = "";
-                    } else {
-                        $y = "";
-                        $n = "hidden";
-                    }
-                    ?>
-                    <button type="button" rel="<?php echo $image->getImageUser()->id ?>" class="btn btn-default <?php echo $y ?>" id="followBtn" >Follow</button>
-                    <button type="button" rel="<?php echo $image->getImageUser()->id ?>" class="btn btn-success <?php echo $n ?>" id="followingBtn" >Following</button>
-                    <!--<button type="button" class="btn btn-danger hidden" id="unfollowBtn" >Unfollow</button>-->
+                <?php if ($this->loggedIn) { ?>
+                    <?php
+                    if ($this->userObj->id != $image->getImageUser()->id) {
+                        if ($this->userObj->isFollowing($image->getImageUser()->id)) {
+                            $y = "hidden";
+                            $n = "";
+                        } else {
+                            $y = "";
+                            $n = "hidden";
+                        }
+                        ?>
+                        <button type="button" rel="<?php echo $image->getImageUser()->id ?>" class="btn btn-default <?php echo $y ?>" id="followBtn" >Follow</button>
+                        <button type="button" rel="<?php echo $image->getImageUser()->id ?>" class="btn btn-success <?php echo $n ?>" id="followingBtn" >Following</button>
+                        <!--<button type="button" class="btn btn-danger hidden" id="unfollowBtn" >Unfollow</button>-->
+                    <?php } ?>  
                 <?php } ?>  
             </div>
 
@@ -55,21 +57,24 @@
             <div class='col-md-2 col-sm-2'>                
                 <p>
                     <?php
-                    if ($this->userObj->id != $image->getImageUser()->id) {
-                        if (!$this->userObj->isLikedImage($image->id)) {
-                            ?>
-                            <button title='Like' id="btnLike" rel="<?php echo $image->id ?>" type="button" class="btn btn-default btn-lg btn3d"><span class="fa fa-thumbs-up"></span></button>
-                        <?php } else { ?>
-                            <button title='Unlike' id="btnLike" rel="<?php echo $image->id ?>" type="button" class="btn btn-success btn-lg btn3d"><span class="fa fa-thumbs-up"></span></button>
-                            <?php
+                    if ($this->loggedIn) {
+                        if ($this->userObj->id != $image->getImageUser()->id) {
+                            if (!$this->userObj->isLikedImage($image->id)) {
+                                ?>
+                                <button title='Like' id="btnLike" rel="<?php echo $image->id ?>" type="button" class="btn btn-default btn-lg btn3d"><span class="fa fa-thumbs-up"></span></button>
+                            <?php } else { ?>
+                                <button title='Unlike' id="btnLike" rel="<?php echo $image->id ?>" type="button" class="btn btn-success btn-lg btn3d"><span class="fa fa-thumbs-up"></span></button>
+                                <?php
+                            }
                         }
-                    }
-                    ?>
-                    <?php if (!$this->userObj->isFavedImage($image->id)) { ?>
-                        <button title='Favorite' id="btnFav" rel="<?php echo $image->id ?>" type="button" class="btn btn-default btn-lg btn3d"><span class="fa fa-star"></span></button>
-                    <?php } else { ?>
-                        <button title='Unfavorite' id="btnFav" rel="<?php echo $image->id ?>" type="button" class="btn btn-success btn-lg btn3d"><span class="fa fa-star"></span></button>
+                        ?>
+                        <?php if (!$this->userObj->isFavedImage($image->id)) { ?>
+                            <button title='Favorite' id="btnFav" rel="<?php echo $image->id ?>" type="button" class="btn btn-default btn-lg btn3d"><span class="fa fa-star"></span></button>
+                        <?php } else { ?>
+                            <button title='Unfavorite' id="btnFav" rel="<?php echo $image->id ?>" type="button" class="btn btn-success btn-lg btn3d"><span class="fa fa-star"></span></button>
+                        <?php } ?>
                     <?php } ?>
+
                     <button title='Zoom' type="button" class="btn btn-primary btn-lg btn3d"><span class="fa fa-search"></span></button>
                 </p>
 
@@ -148,35 +153,59 @@
     <div class="row">
         <div class="col-md-7">
             <h3><span class="fa fa-comment-o"></span> Comments: 4 <sup></sup></h3>
+            <?php $this->handler->msgBox() ?>
+            <form method="POST" action="<?php echo base_url("image/commentImage") ?>">
+                <?php if (!$this->loggedIn) { ?>
+                    <input type="hidden" name="guestComment" value="<?php echo "yes" ?>" />
+                <?php } ?>
+                <input type="hidden" name="image_id" value="<?php echo $image->id ?>" />
+                <div class="well well-sm">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src='http://placehold.it/300&text=IMASGE' style='width: 100%' />
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <?php if (!$this->loggedIn) { ?>
+                                    <div class="col-md-10">
+                                        <input class="form-control" type="text" name="guest_fullname" placeholder="Full Name" />
+                                        <small class="text-info"><label><input class="" type="checkbox" name="anon" /> post as anonymous</label></small>
+                                    </div>  <br />
+                                <?php } ?>
 
-            <div class="well well-sm">
-                <div class="row">
-                    <div class="col-md-2">
-                        <img src='http://placehold.it/300&text=IMASGE' style='width: 100%' />
-                    </div>
-                    <div class="col-md-8">
-                        <textarea class="form-control" placeholder="Share you comments" style="resize: none; height: 90px"></textarea>
-                    </div>
-                    <div class="col-md-2">
-                        <button title='Comment' type="button" class="btn btn-primary btn-lg btn3d"><span class="fa fa-paper-plane-o"></span></button>
+                                <div class="col-md-12">  
+                                    <textarea class="form-control" name="comment" placeholder="Share you comments" style="resize: none; height: 80px"></textarea>
+                                </div>  
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button title='Comment' type="submit" class="btn btn-primary btn-lg btn3d"><span class="fa fa-paper-plane-o"></span></button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
 
             <hr />
 
             <ul class="media-list">
-                <?php for ($i = 0; $i < 4; $i++) { ?>
+                <?php foreach ($image->getComments() as $comment) { ?>
                     <li class="media blog-entry">
                         <div class="pull-left">
                             <img class="media-object" src="http://placehold.it/75" alt="...">
                         </div>
                         <div class="media-body">
                             <div class="blog-entry-content">
-                                <h4>First Last Name</h4>
-                                <div class="date">48 mins ago</div>
+                                <?php if (isset($comment['username'])) { ?>
+                                    <h4>
+                                        <a href="<?php echo base_url("profile/page") . "/" . $comment['username']; ?>"><?php echo $comment['fullname'] ?></a>
+                                    </h4>
+                                <?php } else { ?>
+                                    <h4><?php echo $comment['fullname'] ?></h4>
+                                <?php } ?>
+
+                                <div class="date"><?php echo $comment['date_time'] ?> mins ago</div>
                                 <div class="content">
-                                    <p>Sed porta ac ipsum ut mollis. Integer id vestibulum dui, at dapibus orci. Nunc adipiscing, orci sit amet ultricies sagittis, arcu orci feugiat lorem, nec feugiat magna erat id lectus. </p>
+                                    <p><?php echo $comment['comment'] ?></p>
                                 </div>
                             </div>
                         </div>
@@ -299,7 +328,7 @@
                 }
             });
         });
-        
+
         $("#btnFav").click(function () {
             var image_id = $(this).attr("rel");
             var like = $(this).attr("title");

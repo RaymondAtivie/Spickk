@@ -69,6 +69,14 @@ class ImageObj {
         $num = $CI->IMC->numFavs($this->id);
         return $num;
     }
+    
+    function getComments(){
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+        
+        $comments = $CI->IMC->getImageComments($this->id);
+        return $comments;
+    }
 }
 
 /* End of file Someclass.php */
