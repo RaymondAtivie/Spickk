@@ -68,6 +68,25 @@ class UserObj {
         return $this->images;
     }
 
+    function getFavImages() {
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+
+        $this->images = $CI->IMC->getUserFavImages($this->id);
+
+        if (is_array($this->images)) {
+            function ppSort($a, $b) {
+                return $a->date_time == $b->date_time ? 0 : ( $a->date_time > $b->date_time ) ? -1 : 1;
+            }
+
+            usort($this->images, 'ppSort');
+
+            return $this->images;
+        } else {
+            return false;
+        }
+    }
+
     function followUser($follow_id) {
         $CI = & get_instance();
         $CI->load->model('User_model', 'URM', TRUE);
@@ -136,8 +155,8 @@ class UserObj {
 
         return $bool;
     }
-    
-    function numFollowers(){
+
+    function numFollowers() {
         $CI = & get_instance();
         $CI->load->model('User_model', 'URM', TRUE);
 
@@ -145,12 +164,12 @@ class UserObj {
 
         return $num;
     }
-    
-    function numFavs(){
+
+    function numFavs() {
         $CI = & get_instance();
         $CI->load->model('User_model', 'URM', TRUE);
 
-        $num = $CI->URM->countFavs($this->id);
+        $num = $CI->URM->countUserFavs($this->id);
 
         return $num;
     }
@@ -181,8 +200,8 @@ class UserObj {
 
         return $bool;
     }
-    
-    function commentImage($image_id, $comment){
+
+    function commentImage($image_id, $comment) {
         $CI = & get_instance();
         $CI->load->library('ImageClass', "", 'IMC');
 
@@ -190,15 +209,16 @@ class UserObj {
 
         return $bool;
     }
-    
-    function numProfileView(){
+
+    function numProfileView() {
         $CI = & get_instance();
         $CI->load->library('UserClass', "", 'URC');
 
         $num = $CI->URC->getProfileCount($this->username);
-        
+
         return $num;
     }
+
 }
 
 /* End of file Someclass.php */

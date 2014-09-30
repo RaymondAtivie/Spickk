@@ -67,6 +67,24 @@ class ImageClass {
         return $images;
     }
 
+    public function getUserFavImages($user_id) {
+        $CI = & get_instance();
+        $CI->load->model("Image_model", "IMM", TRUE);
+        $CI->load->library("obj/ImageObj", "", "IMO");
+
+        $result = $CI->IMM->getUserFavImages($user_id);
+
+        if (is_array($result)) {
+            foreach ($result as $k => $v) {
+                $images[] = clone $CI->IMO->getImageObj($v->image_id);
+            }
+
+            return $images;
+        } else {
+            return false;
+        }
+    }
+
     private function createThumbImages($filename) {
         $this->createThumbImage($filename, 100);
         $this->createThumbImage($filename, 150);
@@ -203,7 +221,8 @@ class ImageClass {
         $result = $CI->IMM->getImageComments($image_id);
 
         if ($result) {
-            $i = 0; $users;
+            $i = 0;
+            $users;
             foreach ($result as $v) {
                 if ($v->user_id != 0) {
                     $param = array(
@@ -230,26 +249,26 @@ class ImageClass {
             return false;
         }
     }
-    
+
     public function addImageView($image_id) {
-        
+
         $CI = & get_instance();
         $CI->load->model("image_model", "IMM", TRUE);
-                
+
         $identifier = $_SERVER['REMOTE_ADDR'];
-        if($CI->loggedIn){
-            $identifier .= "_".$CI->userObj->id;
+        if ($CI->loggedIn) {
+            $identifier .= "_" . $CI->userObj->id;
         }
 
-        if(!$CI->IMM->checkIfViewed($image_id, $identifier)){
+        if (!$CI->IMM->checkIfViewed($image_id, $identifier)) {
             $result = $CI->IMM->addImageView($image_id, $identifier);
-        }else{
+        } else {
             $result = false;
-        }        
+        }
 
         return $result;
     }
-    
+
     public function numViews($image_id) {
         $CI = &get_instance();
         $CI->load->model("image_model", "IMM", TRUE);
@@ -258,6 +277,7 @@ class ImageClass {
 
         return $result;
     }
+
 }
 
 /* End of file Someclass.php */

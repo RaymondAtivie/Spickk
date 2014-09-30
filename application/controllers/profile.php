@@ -27,6 +27,7 @@ class Profile extends MY_Controller {
             "type" => "username");
 
         $user = $this->URO->getUserObj($params);
+        
         if (!$user) {
             show_404();
         }elseif(!$this->loggedIn){
@@ -42,6 +43,7 @@ class Profile extends MY_Controller {
         
         $data['user'] = $user;
         $data['user_images'] = $user->getImages();
+        $data['userFavImages'] = $user->getFavImages();
         
         $this->load->view('include/head');
         $this->load->view('include/head_navbar');

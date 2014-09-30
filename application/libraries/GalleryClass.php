@@ -15,7 +15,7 @@ class GalleryClass {
         $CI->load->library("obj/ImageObj", "", "IMO");
 
         $result = $CI->MCM->searchByTagsTitle($search);
-        
+
         if ($result) {
             foreach ($result as $v) {
                 $images[] = clone $CI->IMO->getImageObj($v->id);
@@ -37,6 +37,12 @@ class GalleryClass {
             foreach ($result as $v) {
                 $images[] = clone $CI->IMO->getImageObj($v->id);
             }
+
+            function personSort($a, $b) {
+                return $a->date_time == $b->date_time ? 0 : ( $a->date_time > $b->date_time ) ? -1 : 1;
+            }
+
+            usort($images, 'personSort');
 
             return $images;
         } else {

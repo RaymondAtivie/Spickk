@@ -62,6 +62,20 @@ class Image_model extends CI_Model {
             return FALSE;
         }
     }
+    
+    function getUserFavImages($user_id) {
+        $where = array(
+            "user_id" => $user_id
+        );
+        $query = $this->db->get_where(TB_IMAGE_FAVS, $where);
+
+        if ($query->num_rows() > 0) {
+            $image = $query->result();
+            return $image;
+        } else {
+            return FALSE;
+        }
+    }
 
     function getFollowingUserImages($user_id) {       
         $query = $this->db->query("SELECT *
