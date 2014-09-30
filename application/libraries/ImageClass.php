@@ -203,7 +203,7 @@ class ImageClass {
         $result = $CI->IMM->getImageComments($image_id);
 
         if ($result) {
-            $i = 0;
+            $i = 0; $users;
             foreach ($result as $v) {
                 if ($v->user_id != 0) {
                     $param = array(
@@ -230,7 +230,7 @@ class ImageClass {
             return false;
         }
     }
-
+    
 }
 
 /* End of file Someclass.php */

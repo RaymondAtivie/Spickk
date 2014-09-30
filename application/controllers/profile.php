@@ -29,6 +29,8 @@ class Profile extends MY_Controller {
         $user = $this->URO->getUserObj($params);
         if (!$user) {
             show_404();
+        }elseif(!$this->loggedIn){
+            $data['same'] = false;
         }elseif ($user->username == $this->userObj->username) {
             $data['same'] = true;
         }else{

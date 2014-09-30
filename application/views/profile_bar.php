@@ -294,14 +294,22 @@
                         <h5 class="white">I'm a photography and i love taking pictures</h5>
                         <h5 class="white"><i class="fa fa-location-arrow"></i>&nbsp; Covenant University, Lagos, Nigeria</h5>
 
-                        <?php if ($same) { ?>
-                            <a href="" class="btn btn-info" ><i class="fa fa-pencil"></i>&nbsp;&nbsp; Edit Profile</a>
-                        <?php } else { ?>
-                            <?php if($this->userObj->isFollowing($user->id)){ $y = "hidden"; $n = ""; }else{ $y=""; $n="hidden"; }?>
-                            <button type="button" rel="<?php echo $user->id ?>" class="btn btn-default <?php echo $y ?>" id="followBtn" >Follow</button>
-                            <button type="button" rel="<?php echo $user->id ?>" class="btn btn-success <?php echo $n ?>" id="followingBtn" >Following</button>
-                            <!--<button type="button" class="btn btn-danger hidden" id="unfollowBtn" >Unfollow</button>-->
-                        <?php } ?>  
+                        <?php if ($this->loggedIn) { ?>
+                            <?php if ($same) { ?>
+                                <a href="" class="btn btn-info" ><i class="fa fa-pencil"></i>&nbsp;&nbsp; Edit Profile</a>
+                            <?php } else { ?>
+                                <?php if ($this->userObj->isFollowing($user->id)) {
+                                    $y = "hidden";
+                                    $n = "";
+                                } else {
+                                    $y = "";
+                                    $n = "hidden";
+                                } ?>
+                                <button type="button" rel="<?php echo $user->id ?>" class="btn btn-default <?php echo $y ?>" id="followBtn" >Follow</button>
+                                <button type="button" rel="<?php echo $user->id ?>" class="btn btn-success <?php echo $n ?>" id="followingBtn" >Following</button>
+                                <!--<button type="button" class="btn btn-danger hidden" id="unfollowBtn" >Unfollow</button>-->
+    <?php } ?>  
+<?php } ?>  
 
 
                     </div>
@@ -434,7 +442,7 @@
 
                 <form action="" method="POST">
                     <div class="row">
-                        <?php if ($same == "yes") { ?>
+<?php if ($same == "yes") { ?>
                             <div class="col-md-12">
                                 <p class="text-info">Messages from users whom want to reach you would be sent to this email</p>
                             </div>
@@ -454,7 +462,7 @@
                                     <input name="text" class="form-control input-lg" rows="8" value="Hey there... I can make you up for free"  />
                                 </div>
                             </div>      
-                        <?php } else { ?>
+<?php } else { ?>
                             <div class="col-md-12">
 
                                 <div class="form-group">
@@ -462,7 +470,7 @@
                                 </div>
 
                             </div>    
-                        <?php } ?>
+<?php } ?>
 
 
                     </div>
@@ -497,7 +505,7 @@
             var following_id = $(this).attr("rel");
             $.get("<?php echo base_url("profile/unfollowUser") ?>/" + following_id, function (data, status) {
                 console.log("Data: " + data + " -- Status: " + status);
-                if (status === "success" && data === "1"){
+                if (status === "success" && data === "1") {
                     $("#followingBtn").addClass("hidden");
                     $("#followBtn").removeClass("hidden");
                 }
@@ -508,7 +516,7 @@
             var follow_id = $(this).attr("rel");
             $.get("<?php echo base_url("profile/followUser") ?>/" + follow_id, function (data, status) {
                 console.log("Data: " + data + " -- Status: " + status);
-                if (status === "success" && data === "1"){
+                if (status === "success" && data === "1") {
                     $("#followBtn").addClass("hidden");
                     $("#followingBtn").removeClass("hidden");
                 }

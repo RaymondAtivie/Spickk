@@ -152,12 +152,18 @@
 <div class="container">
     <div class="row">
         <div class="col-md-7">
-            <h3><span class="fa fa-comment-o"></span> Comments: 4 <sup></sup></h3>
-            <?php $this->handler->msgBox() ?>
+            <h3><span class="fa fa-comment-o"></span> Comments: <?php
+                if (is_array($image->getComments())) {
+                    echo count($image->getComments());
+                } else {
+                    echo 0;
+                }
+                ?> <sup></sup></h3>
+                <?php $this->handler->msgBox() ?>
             <form method="POST" action="<?php echo base_url("image/commentImage") ?>">
-                <?php if (!$this->loggedIn) { ?>
+<?php if (!$this->loggedIn) { ?>
                     <input type="hidden" name="guestComment" value="<?php echo "yes" ?>" />
-                <?php } ?>
+<?php } ?>
                 <input type="hidden" name="image_id" value="<?php echo $image->id ?>" />
                 <div class="well well-sm">
                     <div class="row">
@@ -166,12 +172,12 @@
                         </div>
                         <div class="col-md-8">
                             <div class="row">
-                                <?php if (!$this->loggedIn) { ?>
+<?php if (!$this->loggedIn) { ?>
                                     <div class="col-md-10">
                                         <input class="form-control" type="text" name="guest_fullname" placeholder="Full Name" />
                                         <small class="text-info"><label><input class="" type="checkbox" name="anon" /> post as anonymous</label></small>
                                     </div>  <br />
-                                <?php } ?>
+<?php } ?>
 
                                 <div class="col-md-12">  
                                     <textarea class="form-control" name="comment" placeholder="Share you comments" style="resize: none; height: 80px"></textarea>
@@ -188,29 +194,35 @@
             <hr />
 
             <ul class="media-list">
-                <?php foreach ($image->getComments() as $comment) { ?>
-                    <li class="media blog-entry">
-                        <div class="pull-left">
-                            <img class="media-object" src="http://placehold.it/75" alt="...">
-                        </div>
-                        <div class="media-body">
-                            <div class="blog-entry-content">
-                                <?php if (isset($comment['username'])) { ?>
-                                    <h4>
-                                        <a href="<?php echo base_url("profile/page") . "/" . $comment['username']; ?>"><?php echo $comment['fullname'] ?></a>
-                                    </h4>
-                                <?php } else { ?>
-                                    <h4><?php echo $comment['fullname'] ?></h4>
-                                <?php } ?>
+<?php if ($image->getComments()) { ?>
+    <?php foreach ($image->getComments() as $comment) { ?>
+                        <li class="media blog-entry">
+                            <div class="pull-left">
+                                <img class="media-object" src="http://placehold.it/75" alt="...">
+                            </div>
+                            <div class="media-body">
+                                <div class="blog-entry-content">
+                                    <?php if (isset($comment['username'])) { ?>
+                                        <h4>
+                                            <a href="<?php echo base_url("profile/page") . "/" . $comment['username']; ?>"><?php echo $comment['fullname'] ?></a>
+                                        </h4>
+        <?php } else { ?>
+                                        <h4><?php echo $comment['fullname'] ?></h4>
+        <?php } ?>
 
-                                <div class="date"><?php echo $comment['date_time'] ?> mins ago</div>
-                                <div class="content">
-                                    <p><?php echo $comment['comment'] ?></p>
+                                    <div class="date"><?php echo $comment['date_time'] ?> mins ago</div>
+                                    <div class="content">
+                                        <p><?php echo $comment['comment'] ?></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                <?php } ?>
+                        </li>
+    <?php } ?>
+                <?php } else { ?>
+                    <div class="alert alert-info alert-lg">
+                        No Comment on this image yet. Be the first to comment
+                    </div>
+<?php } ?>
             </ul>
         </div>
         <div class="col-md-5">
@@ -233,21 +245,21 @@
 
                                 <div class="item active">
                                     <div class="row">
-                                        <?php for ($i = 0; $i < 3; $i++) { ?>
+<?php for ($i = 0; $i < 3; $i++) { ?>
                                             <div class="col-md-4"><a href="#x" ><img src="http://placehold.it/450" alt="Image" style="max-width:100%;" /></a></div>
-                                        <?php } ?>
+                                <?php } ?>
                                     </div><!--/row-fluid-->
                                 </div><!--/item-->
 
-                                <?php for ($i = 0; $i < 2; $i++) { ?>
+                                        <?php for ($i = 0; $i < 2; $i++) { ?>
                                     <div class="item">
                                         <div class="row">
-                                            <?php for ($i = 0; $i < 3; $i++) { ?>
+    <?php for ($i = 0; $i < 3; $i++) { ?>
                                                 <div class="col-md-4"><a href="#x" ><img src="http://placehold.it/450" alt="Image" style="max-width:100%;" /></a></div>
-                                            <?php } ?>
+                                    <?php } ?>
                                         </div><!--/row-fluid-->
                                     </div><!--/item-->
-                                <?php } ?>
+<?php } ?>
 
                             </div><!--/carousel-inner-->
 

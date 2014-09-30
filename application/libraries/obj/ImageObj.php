@@ -76,7 +76,8 @@ class ImageObj {
         
         $comments = $CI->IMC->getImageComments($this->id);
         return $comments;
-    }
+    }   
+    
 }
 
 /* End of file Someclass.php */

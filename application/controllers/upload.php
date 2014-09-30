@@ -8,12 +8,18 @@ class Upload extends MY_Controller {
     public function __construct() {
         parent::__construct();
 
-        $ds = DIRECTORY_SEPARATOR;  //1
-        $username = $this->userObj->username;
-        $this->tmp_dir = "collection" . $ds . "tmp" . $ds . $username . $ds;
+        if ($this->loggedIn) {
+            $ds = DIRECTORY_SEPARATOR;  //1
+            $username = $this->userObj->username;
+            $this->tmp_dir = "collection" . $ds . "tmp" . $ds . $username . $ds;
+        }
     }
 
     public function index() {
+        if (!$this->loggedIn) {
+            show_404("505");
+        }
+
         $this->load->view('include/head');
         $this->load->view('include/head_navbar');
 
@@ -43,7 +49,7 @@ class Upload extends MY_Controller {
     public function discard($file = "") {
         if ($file != "") {
             $file = urldecode($file);
-            $file = $file.".".$_GET['ext'];
+            $file = $file . "." . $_GET['ext'];
             echo $file;
             $this->emptyTmpFolder($file);
         } else {
@@ -58,7 +64,7 @@ class Upload extends MY_Controller {
 
     private function emptyTmpFolder($sFile = "") {
         if ($sFile != "") {
-            unlink($this->tmp_dir.$sFile);
+            unlink($this->tmp_dir . $sFile);
         } else {
             $files = glob($this->tmp_dir . "*"); // get all file names
 
