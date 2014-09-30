@@ -69,9 +69,9 @@
                         }
                         ?>
                         <?php if (!$this->userObj->isFavedImage($image->id)) { ?>
-                            <button title='Favorite' id="btnFav" rel="<?php echo $image->id ?>" type="button" class="btn btn-default btn-lg btn3d"><span class="fa fa-star"></span></button>
+                            <button title='Add to collection' id="btnFav" rel="<?php echo $image->id ?>" type="button" class="btn btn-default btn-lg btn3d"><span class="fa fa-star"></span></button>
                         <?php } else { ?>
-                            <button title='Unfavorite' id="btnFav" rel="<?php echo $image->id ?>" type="button" class="btn btn-success btn-lg btn3d"><span class="fa fa-star"></span></button>
+                            <button title='Remove from collection' id="btnFav" rel="<?php echo $image->id ?>" type="button" class="btn btn-success btn-lg btn3d"><span class="fa fa-star"></span></button>
                         <?php } ?>
                     <?php } ?>
 
@@ -345,7 +345,7 @@
             var image_id = $(this).attr("rel");
             var like = $(this).attr("title");
             var url = "";
-            if (like === "Favorite") {
+            if (like === "Add to collection") {
                 url = "<?php echo base_url("image/favImage") ?>/";
             } else {
                 url = "<?php echo base_url("image/unFavImage") ?>/";
@@ -353,14 +353,14 @@
             $.get(url + image_id, function (data, status) {
                 console.log("Data: " + data + " -- Status: " + status);
                 if (status === "success" && data === "1") {
-                    if (like === "Favorite") {
+                    if (like === "Add to collection") {
                         $("#btnFav").addClass("btn-success");
                         $("#btnFav").removeClass("btn-default");
-                        $("#btnFav").attr({"title": "Unfavorite"});
+                        $("#btnFav").attr({"title": "Remove from collection"});
                     } else {
                         $("#btnFav").addClass("btn-default");
                         $("#btnFav").removeClass("btn-success");
-                        $("#btnFav").attr({"title": "Favorite"});
+                        $("#btnFav").attr({"title": "Add to collection"});
                     }
                 }
             });
