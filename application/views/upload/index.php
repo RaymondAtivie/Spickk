@@ -3,8 +3,8 @@
 <script>
     Dropzone.options.myDropzone = {
         maxFilesize: 500,
-        init: function() {
-            this.on("uploadprogress", function(file, progress) {
+        init: function () {
+            this.on("uploadprogress", function (file, progress) {
                 console.log("File progress", progress);
             });
         }
@@ -16,18 +16,12 @@
         <div class="col-md-12"></div>
     </div>
 
-    <?php if ($this->session->flashdata("msgbox")) { ?>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 nobm">
-                <div class="alert alert-<?php echo $this->session->flashdata("msgbox") ?>">
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                    </button>
-                    <?php echo $this->session->flashdata("msgmsg") ?>
-                </div>
-            </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 nobm">
+            <?php $this->handler->msgBox() ?>
         </div>
-    <?php } ?>
+    </div>
     <?php if ($this->session->flashdata("msgboxDanger") == "danger") { ?>
         <div class="row">
             <div class="col-md-6 col-md-offset-3 nobm">           
@@ -55,12 +49,55 @@
         </div>        
     </div>
 
-    <div class="row">
-        <div class="col-md-4 col-md-offset-3">
-            <a href="<?php base_url() ?>upload/work" class="btn btn-primary btn-lg btn-block" >Next&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a>
+    <form action="<?php base_url() ?>upload/work" method="POST">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3"  style="text-align: center">
+                <div class="row">
+                    <div class="col-md-5">
+                        <p>Select an Album</p>
+                        <select id="albumselect" name="album_id" class="form-control">
+                            <option value="0">--SELECT ALBUM--</option>
+                            <?php foreach ($albums as $album) { ?>
+                                <option <?php if($album->name == "General"){ echo "selected";} ?> value="<?php echo $album->id ?>"><?php echo $album->name ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+
+                    <div class="col-md-1" style="text-align: center">
+                        <h3>Or</h3>
+                    </div>
+
+                    <div class="col-md-5">
+                        <p>Create a new Album</p>
+                        <input id="newAlbum" type="text" placeholder="Name" class="form-control" name="album_name" />
+                        <textarea class="form-control" name="album_description" placeholder="Description" rows="3" style="resize: none"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="text-danger">
+                            You can still change the individual image album
+                        </h4>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-2">
-            <a href="<?php base_url() ?>upload/discard" class="btn btn-warning btn-lg btn-block" ><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Discard</a>
+        <br />
+        <div class="row">
+            <div class="col-md-4 col-md-offset-3">
+                <button type="submit" class="btn btn-primary btn-lg btn-block" >Next&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button>
+            </div>
+            <div class="col-md-2">
+                <a href="<?php base_url() ?>upload/discard" class="btn btn-warning btn-lg btn-block" ><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Discard</a>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
+<script>
+    $(document).ready(function(){
+       $("#newAlbum").keyup(function(){
+          $("#albumselect").val('0'); 
+       }); 
+    });
+</script>

@@ -19,7 +19,18 @@ class LoginClass {
         $CI->load->model('Login_model', 'LGM', TRUE);
 
         $result = $CI->LGM->registerUser($firstname, $lastname, $username, $email, $userCategoryID, $password);
+        
+        $this->createGeneralAlbum($result);
 
+        return $result;
+    }
+    
+    private function createGeneralAlbum($user_id){
+        $CI = & get_instance();
+        $CI->load->model('Login_model', 'LGM', TRUE);
+        
+        $result = $CI->LGM->createGeneralAlbum($user_id);
+        
         return $result;
     }
 

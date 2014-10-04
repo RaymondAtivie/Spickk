@@ -28,9 +28,24 @@
                             <div class="form-group">
                                 <textarea name="description[<?php echo $i ?>]" class="form-control input-lg" placeholder="A description of your image"></textarea>
                             </div>
+                            <div class="col-md-2">
+                                <b>Album</b>
+                            </div>
+                            <div class="form-group col-md-10">
+                                <select name="album_id[<?php echo $i ?>]" class="form-control">
+                                    <option value="<?php echo $defaultAlbum->id ?>"><?php echo $defaultAlbum->name ?></option>
+                                    <?php foreach ($userAlbums as $album) { ?>
+                                        <option value="<?php echo $album->id ?>"><?php echo $album->name ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>                    
+                            <br />             
+                            <br />
                             <div class="form-group">
-                                <span class="help-block">Tags: Separate with comma (e.g marriage, monochrome, traditional)</span>
-                                <input type="text" name="tags[<?php echo $i ?>]" data-role="tagsinput" class="form-control input-lg" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" >
+                                <br />
+                                <input type="text" name="tags[<?php echo $i ?>]" data-role="tagsinput" class="form-control input-lg" placeholder="Tags&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" >
+                                <br />
+                                <span style="font-size: smaller">Separate with comma (e.g marriage, monochrome, traditional)</span>
                             </div>
 
                             <div class="form-group">
@@ -72,16 +87,16 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $(".rmvbtn").click(function() {
+    $(document).ready(function () {
+        $(".rmvbtn").click(function () {
             if (confirm("Are you sure you want to REMOVE this image? (It cannot be undone)")) {
                 var dd = $(this).attr("rel");
-                $("#box" + dd).slideUp(200, function() {
-                    
+                $("#box" + dd).slideUp(200, function () {
+
                     var file = $(this).attr("f");
                     var ext = $(this).attr("e");
                     //alert (file);
-                    $.get("<?php echo base_url('upload/discard') ?>/" + file+"?ext="+ext);
+                    $.get("<?php echo base_url('upload/discard') ?>/" + file + "?ext=" + ext);
 
                     $(this).remove();
 

@@ -70,19 +70,23 @@
                     <div class="tab-pane" id="albums">
                         <br />
                         <div class="row">
-                            <?php for ($i = 0; $i < 7; $i++) { ?>
-                                <div class="col-sm-6 col-md-4">
-                                    <div class="thumbnail">
-                                        <img src="http://placehold.it/320x200" class="albumimg" rel="id<?php echo $i ?>" alt="The Image">
-                                        <div class="caption" id="id<?php echo $i ?>caption">
-                                            <h3>Thumbnail label</h3>
-                                            <p>This is a description</p>
-                                            <p>
-                                                <a href="#" class="btn btn-primary" role="button">View</a> 
-                                            </p>
+                            <?php if (is_array($userAlbums)) { ?>
+                                <?php foreach ($userAlbums as $album) { ?>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="thumbnail">
+                                            <img src="http://placehold.it/320x200" class="albumimg" rel="id<?php echo $album->id ?>" alt="The Image">
+                                            <div class="caption" id="id<?php echo $album->id ?>caption">
+                                                <h3><?php echo $album->name ?></h3>
+                                                <p><?php echo $album->description ?></p>
+                                                <p>
+                                                    <a href="#" class="btn btn-primary" role="button">View</a> 
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                <?php } ?>
+                            <?php } else { ?>
+                                <div class="alert alert-info">No images have been added</div>
                             <?php } ?>
                         </div>
                     </div>
@@ -170,7 +174,7 @@
     </div>
 </section>
 <script>
-    function likeImage(image_id) {           
+    function likeImage(image_id) {
         var url = "";
         console.log(this);
         if (like === "Like") {
@@ -181,7 +185,7 @@
         alert(url);
         $.get(url + image_id, function (data, status) {
             console.log("Data: " + data + " -- Status: " + status);
-            alert(status+" "+data);
+            alert(status + " " + data);
             if (status === "success" && data === "1") {
 //                if (like === "Like") {
 //                    $("#btnLike").addClass("btn-success");

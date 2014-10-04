@@ -20,10 +20,12 @@ class Upload extends MY_Controller {
             show_404("505");
         }
 
+        $data['albums'] = $this->userObj->getAlbums();
+
         $this->load->view('include/head');
         $this->load->view('include/head_navbar');
 
-        $this->load->view("upload/index");
+        $this->load->view("upload/index", $data);
 
         $this->load->view('include/foot');
         $this->load->view('include/footer');
@@ -93,7 +95,28 @@ class Upload extends MY_Controller {
             $this->session->set_flashdata("msgmsg", "<b>No files added</b><br />Please add files to upload");
 
             redirect(base_url("upload"));
+        } elseif (!is_array($this->input->post())) {
+            $this->session->set_flashdata("msgbox", 'info');
+            $this->session->set_flashdata("msgmsg", "<b>Please select an album and click next</b>");
+
+            redirect(base_url("upload"));
         } else {
+            foreach ($this->input->post() as $k => $v) {
+                $$k = trim($v);
+            }
+
+            $this->load->library("ImageClass", "", "IMC");
+            if ($album_id == '0') {
+                if ($album_name != "") {
+                    $album_id = $this->IMC->createAlbum($album_name, $album_description, $this->userObj->id);
+                } else {
+                    $album_id = $this->userObj->getGeneralAlbum()->id;
+                }
+            }
+
+            $data['defaultAlbum'] = $this->IMC->getAlbum($album_id);
+            $data['userAlbums'] = $this->userObj->getAlbums();
+
             $data['files'] = $newFiles;
             $data['num_files'] = $num_files;
 
@@ -129,8 +152,9 @@ class Upload extends MY_Controller {
             $title = $newFiles['title'][$i];
             $description = $newFiles['description'][$i];
             $tags = $newFiles['tags'][$i];
+            $album_id = $newFiles['album_id'][$i];
 
-            if ($this->IMC->uploadImage($file, $title, $description, $tags, $this->userObj->id)) {
+            if ($this->IMC->uploadImage($file, $title, $description, $tags, $this->userObj->id, $album_id)) {
                 $tResult[] = $title;
             } else {
                 $fResult[] = $title;

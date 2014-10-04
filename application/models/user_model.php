@@ -34,7 +34,7 @@ class User_model extends CI_Model {
             } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }
@@ -69,26 +69,26 @@ class User_model extends CI_Model {
             return false;
         }
     }
-    
-    function countFollowers($user_id){
+
+    function countFollowers($user_id) {
         $where = array(
             "following_user_id" => $user_id
         );
         $query = $this->db->get_where(TB_FOLLOWING, $where);
-        
+
         return $query->num_rows();
     }
-    
-    function countUserFavs($user_id){
+
+    function countUserFavs($user_id) {
         $where = array(
             "user_id" => $user_id
         );
         $query = $this->db->get_where(TB_IMAGE_FAVS, $where);
-        
+
         return $query->num_rows();
     }
-    
-    function addProfileView($profile_username, $identifier){
+
+    function addProfileView($profile_username, $identifier) {
         $set = array(
             "profile_username" => $profile_username,
             "identifier" => $identifier
@@ -101,27 +101,44 @@ class User_model extends CI_Model {
             return false;
         }
     }
-    
-    function checkProfileViewed($profile_username, $identifier){
+
+    function checkProfileViewed($profile_username, $identifier) {
         $where = array(
             "profile_username" => $profile_username,
             "identifier" => $identifier
         );
         $result = $this->db->get_where(TB_PROFILE_VIEWS, $where);
 
-        if($result->num_rows() > 0){
+        if ($result->num_rows() > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
     function countProfileViews($profile_username) {
         $where = array(
             "profile_username" => $profile_username
         );
         $query = $this->db->get_where(TB_PROFILE_VIEWS, $where);
-        
+
         return $query->num_rows();
     }
+
+    function getGeneralAlbum($user_id, $general = "General") {
+        $where = array(
+            "user_id" => $user_id,
+            "name" => $general
+        );
+        $query = $this->db->get_where(TB_ALBUM, $where);
+
+        if ($query->num_rows() > 0) {
+            $num = $query->result()[0];
+
+            return $num;
+        } else {
+            return false;
+        }
+    }
+
 }

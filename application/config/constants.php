@@ -48,13 +48,13 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 define("TB_USERS", "users");
 define("TB_USERS_INFO", "users_info");
 define("TB_USER_CATEGORY", "user_category");
-define("TB_USER_GALLERY", "user_gallery");
 define("TB_IMAGE", "image");
 define("TB_IMAGE_COMMENTS", "image_comments");
 define("TB_IMAGE_LIKES", "image_likes");
 define("TB_IMAGE_FAVS", "image_favs");
 define("TB_IMAGE_VIEWS", "image_views");
 define("TB_ALBUM", "album");
+define("TB_ALBUM_IMAGE", "album_image");
 define("TB_FOLLOWING", "following");
 define("TB_PROFILE_VIEWS", "profile_views");
 /* End of file constants.php */

@@ -218,6 +218,24 @@ class UserObj {
 
         return $num;
     }
+    
+    public function getAlbums() {
+        $CI = & get_instance();
+        $CI->load->library('ImageClass', "", 'IMC');
+
+        $albums = $CI->IMC->getUsersAlbum($this->id);
+
+        return $albums;
+    }
+    
+    public function getGeneralAlbum() {
+        $CI = & get_instance();
+        $CI->load->model('user_model', "USM", TRUE);
+
+        $album = $CI->USM->getGeneralAlbum($this->id);
+
+        return $album;
+    }
 
 }
 

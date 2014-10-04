@@ -44,6 +44,7 @@ class Profile extends MY_Controller {
         $data['user'] = $user;
         $data['user_images'] = $user->getImages();
         $data['userFavImages'] = $user->getFavImages();
+        $data['userAlbums'] = $user->getAlbums();
         
         $this->load->view('include/head');
         $this->load->view('include/head_navbar');

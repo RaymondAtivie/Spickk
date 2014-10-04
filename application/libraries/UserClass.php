@@ -9,7 +9,7 @@ class UserClass {
         $CI = & get_instance();
         $CI->load->model("user_model", "URM", TRUE);
                 
-        $identifier = $_SERVER['REMOTE_ADDR'];
+        $identifier = $_SERVER['REMOTE_ADDR']."_".date("d-m-Y-a");
         if($CI->loggedIn){
             $identifier .= "_".$CI->userObj->id;
         }

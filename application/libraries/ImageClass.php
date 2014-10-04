@@ -5,7 +5,7 @@ if (!defined('BASEPATH'))
 
 class ImageClass {
 
-    public function uploadImage($file, $title, $description, $tags, $user_id) {
+    public function uploadImage($file, $title, $description, $tags, $user_id, $album_id) {
         $CI = &get_instance();
         $CI->load->model("image_model", "IMM", TRUE);
 
@@ -24,7 +24,9 @@ class ImageClass {
         if (rename($file, $destination)) {
             $this->createThumbImages($newFilename);
 
-            $CI->IMM->insertImage($newFilename, $title, $description, $tags, $user_id);
+            $image_id = $CI->IMM->insertImage($newFilename, $title, $description, $tags, $user_id);
+            $CI->IMM->addImageToAlbum($image_id, $album_id);
+            
             return TRUE;
         } else {
             return FALSE;
@@ -255,7 +257,7 @@ class ImageClass {
         $CI = & get_instance();
         $CI->load->model("image_model", "IMM", TRUE);
 
-        $identifier = $_SERVER['REMOTE_ADDR'];
+        $identifier = $_SERVER['REMOTE_ADDR']."_".date("d-m-Y-a");
         if ($CI->loggedIn) {
             $identifier .= "_" . $CI->userObj->id;
         }
@@ -274,6 +276,38 @@ class ImageClass {
         $CI->load->model("image_model", "IMM", TRUE);
 
         $result = $CI->IMM->countImageViews($image_id);
+
+        return $result;
+    }
+
+    function createAlbum($name, $description, $user_id) {
+        $CI = &get_instance();
+        $CI->load->model("image_model", "IMM", TRUE);
+
+        $album_id = $CI->IMM->confirmAlbumExist($name, $user_id);
+        if(!$album_id){
+            $result = $CI->IMM->createAlbum($name, $description, $user_id);
+            return $result;
+        }else{
+            return $album_id;
+        }
+        
+    }
+    
+    function getAlbum($album_id) {
+        $CI = &get_instance();
+        $CI->load->model("image_model", "IMM", TRUE);
+
+        $result = $CI->IMM->getAlbum($album_id);
+
+        return $result;
+    }
+    
+    function getUsersAlbum($user_id){
+        $CI = &get_instance();
+        $CI->load->model("image_model", "IMM", TRUE);
+
+        $result = $CI->IMM->getUserAlbums($user_id);
 
         return $result;
     }

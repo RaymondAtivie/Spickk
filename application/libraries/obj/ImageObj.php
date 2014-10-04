@@ -14,6 +14,7 @@ class ImageObj {
     var $public;
     var $user_id;
     var $download;
+    var $album;
 
     function __construct() {
         

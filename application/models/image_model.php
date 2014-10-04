@@ -15,10 +15,10 @@ class Image_model extends CI_Model {
             "user_id" => $user_id
         );
         $result = $this->db->insert(TB_IMAGE, $set);
-        
-        if($result){
-            return true;
-        }else{
+
+        if ($result) {
+            return $this->db->insert_id();
+        } else {
             return false;
         }
     }
@@ -36,13 +36,13 @@ class Image_model extends CI_Model {
             return FALSE;
         }
     }
-    
+
     function getAllImages() {
         $query = $this->db->get_where(TB_IMAGE);
 
         if ($query->num_rows() > 0) {
             $image = $query->result();
-            
+
             return $image;
         } else {
             return FALSE;
@@ -62,7 +62,7 @@ class Image_model extends CI_Model {
             return FALSE;
         }
     }
-    
+
     function getUserFavImages($user_id) {
         $where = array(
             "user_id" => $user_id
@@ -77,12 +77,12 @@ class Image_model extends CI_Model {
         }
     }
 
-    function getFollowingUserImages($user_id) {       
+    function getFollowingUserImages($user_id) {
         $query = $this->db->query("SELECT *
-                                    FROM ".TB_IMAGE." i
+                                    FROM " . TB_IMAGE . " i
                                     WHERE EXISTS (SELECT *
-                                    FROM ".TB_FOLLOWING." f
-                                    WHERE f.follower_user_id = ".$user_id." AND f.following_user_id = i.user_id) OR i.user_id = ".$user_id." ORDER BY i.date_time DESC");
+                                    FROM " . TB_FOLLOWING . " f
+                                    WHERE f.follower_user_id = " . $user_id . " AND f.following_user_id = i.user_id) OR i.user_id = " . $user_id . " ORDER BY i.date_time DESC");
 
         if ($query->num_rows() > 0) {
             $image = $query->result();
@@ -91,35 +91,35 @@ class Image_model extends CI_Model {
             return FALSE;
         }
     }
-    
+
     public function likeImage($user_id, $image_id) {
         $set = array(
-            "user_id"=>$user_id,
-            "image_id"=>$image_id
+            "user_id" => $user_id,
+            "image_id" => $image_id
         );
-        $result = $this->db->insert(TB_IMAGE_LIKES, $set); 
-        
-        if($result){
+        $result = $this->db->insert(TB_IMAGE_LIKES, $set);
+
+        if ($result) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
     public function unLikeImage($user_id, $image_id) {
         $where = array(
-            "user_id"=>$user_id,
-            "image_id"=>$image_id
+            "user_id" => $user_id,
+            "image_id" => $image_id
         );
-        $result = $this->db->delete(TB_IMAGE_LIKES, $where); 
-        
-        if($result){
+        $result = $this->db->delete(TB_IMAGE_LIKES, $where);
+
+        if ($result) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
     public function checkLikeImage($user_id, $image_id) {
         $where = array(
             "user_id" => $user_id,
@@ -134,44 +134,44 @@ class Image_model extends CI_Model {
             return false;
         }
     }
-    
+
     public function countLikes($image_id) {
         $where = array(
             "image_id" => $image_id
         );
         $query = $this->db->get_where(TB_IMAGE_LIKES, $where);
-        
+
         return $query->num_rows();
     }
-    
+
     public function favImage($user_id, $image_id) {
         $set = array(
-            "user_id"=>$user_id,
-            "image_id"=>$image_id
+            "user_id" => $user_id,
+            "image_id" => $image_id
         );
-        $result = $this->db->insert(TB_IMAGE_FAVS, $set); 
-        
-        if($result){
+        $result = $this->db->insert(TB_IMAGE_FAVS, $set);
+
+        if ($result) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
     public function unFavImage($user_id, $image_id) {
         $where = array(
-            "user_id"=>$user_id,
-            "image_id"=>$image_id
+            "user_id" => $user_id,
+            "image_id" => $image_id
         );
-        $result = $this->db->delete(TB_IMAGE_FAVS, $where); 
-        
-        if($result){
+        $result = $this->db->delete(TB_IMAGE_FAVS, $where);
+
+        if ($result) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
     public function checkFavImage($user_id, $image_id) {
         $where = array(
             "user_id" => $user_id,
@@ -186,58 +186,58 @@ class Image_model extends CI_Model {
             return false;
         }
     }
-    
+
     public function countFavs($image_id) {
         $where = array(
             "image_id" => $image_id
         );
         $query = $this->db->get_where(TB_IMAGE_FAVS, $where);
-        
+
         return $query->num_rows();
     }
-    
+
     private function commentUserImage($image_id, $comment, $user_id) {
         $set = array(
-            "user_id"=>$user_id,
-            "image_id"=>$image_id,
-            "comment"=>$comment
+            "user_id" => $user_id,
+            "image_id" => $image_id,
+            "comment" => $comment
         );
-        $result = $this->db->insert(TB_IMAGE_COMMENTS, $set); 
-        
-        if($result){
+        $result = $this->db->insert(TB_IMAGE_COMMENTS, $set);
+
+        if ($result) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
     private function commentGuestImage($image_id, $comment, $guest_fullname) {
         $set = array(
-            "user_id"=>0,
-            "image_id"=>$image_id,
-            "comment"=>$comment,
-            "guest_fullname"=>$guest_fullname
+            "user_id" => 0,
+            "image_id" => $image_id,
+            "comment" => $comment,
+            "guest_fullname" => $guest_fullname
         );
-        $result = $this->db->insert(TB_IMAGE_COMMENTS, $set); 
-        
-        if($result){
+        $result = $this->db->insert(TB_IMAGE_COMMENTS, $set);
+
+        if ($result) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
-    public function makeImageComment($image_id, $user_id, $comment, $guest_fullname=NULL) {
-        if($user_id == 0){
+
+    public function makeImageComment($image_id, $user_id, $comment, $guest_fullname = NULL) {
+        if ($user_id == 0) {
             $result = $this->commentGuestImage($image_id, $comment, $guest_fullname);
-        }else{
+        } else {
             $result = $this->commentUserImage($image_id, $comment, $user_id);
         }
-        
+
         return $result;
     }
 
-    public function getImageComments($image_id){
+    public function getImageComments($image_id) {
         $where = array(
             "image_id" => $image_id
         );
@@ -251,8 +251,8 @@ class Image_model extends CI_Model {
             return FALSE;
         }
     }
-    
-    function addImageView($image_id, $identifier){
+
+    function addImageView($image_id, $identifier) {
         $set = array(
             "image_id" => $image_id,
             "identifier" => $identifier
@@ -265,22 +265,22 @@ class Image_model extends CI_Model {
             return false;
         }
     }
-    
-    function checkIfViewed($image_id, $identifier){
+
+    function checkIfViewed($image_id, $identifier) {
         $where = array(
             "image_id" => $image_id,
             "identifier" => $identifier
         );
         $result = $this->db->get_where(TB_IMAGE_VIEWS, $where);
 
-        if($result->num_rows() > 0){
+        if ($result->num_rows() > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
-    function countImageViews($image_id){
+
+    function countImageViews($image_id) {
         $where = array(
             "image_id" => $image_id
         );
@@ -288,4 +288,106 @@ class Image_model extends CI_Model {
 
         return $result->num_rows();
     }
+
+    function createAlbum($name, $description, $user_id) {
+        $set = array(
+            "user_id" => $user_id,
+            "name" => $name,
+            "description" => $description
+        );
+        $result = $this->db->insert(TB_ALBUM, $set);
+
+        if ($result) {
+            return $this->db->insert_id();
+        } else {
+            return false;
+        }
+    }
+
+    function confirmAlbumExist($album_name, $user_id) {
+        $where = array(
+            "user_id" => $user_id,
+            "name" => $album_name
+        );
+        $query = $this->db->get_where(TB_ALBUM, $where);
+
+        if ($query->num_rows() > 0) {
+            return $query->result()[0]->id;
+        } else {
+            return false;
+        }
+    }
+
+    function addImageToAlbum($image_id, $album_id) {
+        $set = array(
+            "image_id" => $image_id,
+            "album_id" => $album_id
+        );
+        $result = $this->db->insert(TB_ALBUM_IMAGE, $set);
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function removeImageFromAlbum($image_id, $album_id) {
+        $where = array(
+            "image_id" => $image_id,
+            "album_id" => $album_id
+        );
+        $result = $this->db->delete(TB_ALBUM_IMAGE, $where);
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function getAlbum($album_id) {
+        $where = array(
+            "id" => $album_id
+        );
+        $query = $this->db->get_where(TB_ALBUM, $where);
+
+        if ($query->num_rows() > 0) {
+            $albums = $query->result()[0];
+            return $albums;
+        } else {
+            return FALSE;
+        }
+    }
+
+    function getUserAlbums($user_id) {
+        $where = array(
+            "user_id" => $user_id
+        );
+        $this->db->order_by("date_time", "desc");
+        $query = $this->db->get_where(TB_ALBUM, $where);
+
+        if ($query->num_rows() > 0) {
+            $albums = $query->result();
+            return $albums;
+        } else {
+            return FALSE;
+        }
+    }
+
+    function getImagesForAlbum($album_id) {
+        $where = array(
+            "album_id" => $album_id
+        );
+        $this->db->order_by("date_time", "desc");
+        $query = $this->db->get_where(TB_ALBUM_IMAGE, $where);
+
+        if ($query->num_rows() > 0) {
+            $images = $query->result();
+            return $images;
+        } else {
+            return FALSE;
+        }
+    }
+
 }

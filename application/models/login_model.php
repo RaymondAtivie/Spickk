@@ -6,7 +6,7 @@ class Login_model extends CI_Model {
         parent::__construct();
     }
 
-    function registerUser($firstname, $lastname, $username, $email, $userCategoryID, $password) {
+    public function registerUser($firstname, $lastname, $username, $email, $userCategoryID, $password) {
         $vEmail = $this->verifyUsernameEmail($email, "email");
         if ($vEmail) {
             $vUsername = $this->verifyUsernameEmail($username, "username");
@@ -20,14 +20,28 @@ class Login_model extends CI_Model {
                     'password' => $password
                 );
                 $this->db->insert(TB_USERS, $set);
+                
+                $user_id = $this->db->insert_id();
 
-                return TRUE;
+                return $user_id;
             } else {
                 return 'vUsername';
             }
         } else {
             return 'vEmail';
         }
+    }
+    
+    function createGeneralAlbum($user_id) {
+        $CI = & get_instance();
+        $CI->load->model("image_model", "IMM", TRUE);
+        
+        $name = "General";
+        $description = "Uncategorized Images";
+        
+        $result = $CI->IMM->createAlbum($name, $description, $user_id);
+        
+        return $result;
     }
 
     function loginUser($usernameEmail, $password) {
