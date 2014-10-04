@@ -9,7 +9,7 @@
             <div class="col-md-4 col-sm-6" style='margin-bottom: 0px'>
                 <div class="media">
                     <a class="thumbnail pull-left" href="#">
-                        <img class="media-object" src="http://placehold.it/120x70&text=profile+picture">
+                        <img style="width: 100px" class="media-object" src="<?php echo base_url("collection/profile/".$image->getImageUser()->profile_img) ?>">
                     </a>
                     <div class="media-body">
                         <h3 class="media-heading"><b><?php echo $image->title ?></b></h3>
@@ -168,7 +168,7 @@
                 <div class="well well-sm">
                     <div class="row">
                         <div class="col-md-2">
-                            <img src='http://placehold.it/300&text=IMASGE' style='width: 100%' />
+                            <img src='<?php echo base_url()."collection/profile/".$this->userObj->profile_img?>' style='width: 100%' />
                         </div>
                         <div class="col-md-8">
                             <div class="row">
@@ -192,13 +192,12 @@
             </form>
 
             <hr />
-
             <ul class="media-list">
                 <?php if ($image->getComments()) { ?>
                     <?php foreach ($image->getComments() as $comment) { ?>
                         <li class="media blog-entry">
                             <div class="pull-left">
-                                <img class="media-object" src="http://placehold.it/75" alt="...">
+                                <img style="width: 70px" class="media-object" src="<?php echo base_url()."collection/profile/".$comment['profile_img'] ?>" alt="...">
                             </div>
                             <div class="media-body">
                                 <div class="blog-entry-content">

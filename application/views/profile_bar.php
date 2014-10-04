@@ -298,13 +298,15 @@
                             <?php if ($same) { ?>
                                 <a href="" class="btn btn-info" ><i class="fa fa-pencil"></i>&nbsp;&nbsp; Edit Profile</a>
                             <?php } else { ?>
-                                <?php if ($this->userObj->isFollowing($user->id)) {
+                                <?php
+                                if ($this->userObj->isFollowing($user->id)) {
                                     $y = "hidden";
                                     $n = "";
                                 } else {
                                     $y = "";
                                     $n = "hidden";
-                                } ?>
+                                }
+                                ?>
                                 <button type="button" rel="<?php echo $user->id ?>" class="btn btn-default <?php echo $y ?>" id="followBtn" >Follow</button>
                                 <button type="button" rel="<?php echo $user->id ?>" class="btn btn-success <?php echo $n ?>" id="followingBtn" >Following</button>
                                 <!--<button type="button" class="btn btn-danger hidden" id="unfollowBtn" >Unfollow</button>-->
@@ -316,7 +318,7 @@
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6 no-pad"  style="margin-bottom: 0px">
                     <div class="user-image">
-                        <img src="https://farm7.staticflickr.com/6163/6195546981_200e87ddaf_b.jpg" class="img-responsive thumbnail">
+                        <img src="<?php echo base_url("collection/profile/".$user->profile_img) ?>" class="img-responsive thumbnail">
                     </div>
                 </div>
             </div>
