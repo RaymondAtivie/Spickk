@@ -28,3 +28,8 @@
     -moz-background-clip: padding;
     background-clip: padding-box;
 }
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

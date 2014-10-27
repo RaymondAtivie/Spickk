@@ -26,7 +26,7 @@ class ImageClass {
 
             $image_id = $CI->IMM->insertImage($newFilename, $title, $description, $tags, $user_id);
             $CI->IMM->addImageToAlbum($image_id, $album_id);
-            
+
             return TRUE;
         } else {
             return FALSE;
@@ -128,6 +128,9 @@ class ImageClass {
             $CI->load->model("image_model", "IMM", TRUE);
             $result = $CI->IMM->likeImage($user_id, $image_id);
 
+            $CI->load->library("rankClass", "", "RKC");
+            $CI->RKC->addImageAppreciation($image_id, "photo_like");
+
             return $result;
         } else {
             return false;
@@ -139,6 +142,9 @@ class ImageClass {
             $CI = &get_instance();
             $CI->load->model("image_model", "IMM", TRUE);
             $result = $CI->IMM->unLikeImage($user_id, $image_id);
+
+            $CI->load->library("rankClass", "", "RKC");
+            $CI->RKC->addImageAppreciation($image_id, "photo_like", TRUE);
 
             return $result;
         } else {
@@ -170,6 +176,9 @@ class ImageClass {
             $CI->load->model("image_model", "IMM", TRUE);
             $result = $CI->IMM->favImage($user_id, $image_id);
 
+            $CI->load->library("rankClass", "", "RKC");
+            $CI->RKC->addImageAppreciation($image_id, "photo_collection");
+
             return $result;
         } else {
             return false;
@@ -181,6 +190,9 @@ class ImageClass {
             $CI = &get_instance();
             $CI->load->model("image_model", "IMM", TRUE);
             $result = $CI->IMM->unFavImage($user_id, $image_id);
+
+            $CI->load->library("rankClass", "", "RKC");
+            $CI->RKC->addImageAppreciation($image_id, "photo_collection", FALSE);
 
             return $result;
         } else {
@@ -211,6 +223,9 @@ class ImageClass {
         $CI->load->model("image_model", "IMM", TRUE);
 
         $result = $CI->IMM->makeImageComment($image_id, $user_id, $comment, $guest_fullname);
+
+        $CI->load->library("rankClass", "", "RKC");
+        $CI->RKC->addImageAppreciation($image_id, "photo_comment");
 
         return $result;
     }
@@ -257,7 +272,7 @@ class ImageClass {
         $CI = & get_instance();
         $CI->load->model("image_model", "IMM", TRUE);
 
-        $identifier = $_SERVER['REMOTE_ADDR']."_".date("d-m-Y-a");
+        $identifier = $_SERVER['REMOTE_ADDR'] . "_" . date("d-m-Y-a");
         if ($CI->loggedIn) {
             $identifier .= "_" . $CI->userObj->id;
         }
@@ -285,31 +300,65 @@ class ImageClass {
         $CI->load->model("image_model", "IMM", TRUE);
 
         $album_id = $CI->IMM->confirmAlbumExist($name, $user_id);
-        if(!$album_id){
+        if (!$album_id) {
             $result = $CI->IMM->createAlbum($name, $description, $user_id);
             return $result;
-        }else{
+        } else {
             return $album_id;
         }
-        
     }
-    
+
     function getAlbum($album_id) {
         $CI = &get_instance();
         $CI->load->model("image_model", "IMM", TRUE);
 
         $result = $CI->IMM->getAlbum($album_id);
+        $result->numImages = $this->getNumImagesInAlbum($result->id);
 
         return $result;
     }
-    
-    function getUsersAlbum($user_id){
+
+    function getUsersAlbum($user_id) {
         $CI = &get_instance();
         $CI->load->model("image_model", "IMM", TRUE);
 
         $result = $CI->IMM->getUserAlbums($user_id);
 
-        return $result;
+        if (is_array($result)) {
+            foreach ($result as $v) {
+                $results[] = $this->getAlbum($v->id);
+            }
+
+            return $results;
+        } else {
+            return false;
+        }
+    }
+
+    function getImagesForAlbum($album_id) {
+        $CI = &get_instance();
+        $CI->load->model("image_model", "IMM", TRUE);
+        $CI->load->library("obj/ImageObj", "", "IMO");
+
+        $result = $CI->IMM->getImagesForAlbum($album_id);
+
+        if (is_array($result)) {
+            foreach ($result as $v) {
+                $images[] = clone $CI->IMO->getImageObj($v->image_id);
+            }
+
+            return $images;
+        } else {
+            return false;
+        }
+    }
+
+    function getNumImagesInAlbum($album_id) {
+        $images = $this->getImagesForAlbum($album_id);
+
+        $num = count($images);
+
+        return $num;
     }
 
 }

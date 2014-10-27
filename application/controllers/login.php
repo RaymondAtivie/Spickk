@@ -26,12 +26,12 @@ class Login extends MY_Controller {
         if ($result === "vEmail") {
             $this->session->set_flashdata("msgbox", "warning");
             $this->session->set_flashdata("msgmsg", "This <b>Email</b> already exists in our database");
-           
+
             redirect(base_url());
         } elseif ($result === "vUsername") {
             $this->session->set_flashdata("msgbox", "warning");
             $this->session->set_flashdata("msgmsg", "This <b>Username</b> is not available");
-           
+
             redirect(base_url());
         } elseif ($result) {
             $this->session->set_flashdata("regBox", "false");
@@ -91,6 +91,20 @@ class Login extends MY_Controller {
         $result = $this->LGM->verifyUsernameEmail($usernameEmail, $username_email);
 
         echo $result;
+    }
+
+    function mustLogin($reason = "") {
+        if ($reason == "") {
+            $doThat = "do that";
+        } elseif ($reason == "follow") {
+            $doThat = "follow a user";
+        } else {
+            $doThat = "do that";
+        }
+        $this->session->set_flashdata("msgbox", "info");
+        $this->session->set_flashdata("msgmsg", "<b>Please Log in or <a href='#' class='regBtn'>register</a></b><br />You must be logged in to " . $doThat . ".");
+
+        redirect(base_url());
     }
 
 }

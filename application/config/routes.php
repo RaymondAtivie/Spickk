@@ -40,7 +40,7 @@
 
 $route['default_controller'] = "home";
 $route['404_override'] = 'home/errorPage';
-//$route['profile/(:any)'] = 'profile/page/$1';
+$route['album/(:num)'] = 'gallery/album/$1';
 
 
 /* End of file routes.php */

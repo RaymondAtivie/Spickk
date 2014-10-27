@@ -47,6 +47,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 define("TB_USERS", "users");
 define("TB_USERS_INFO", "users_info");
+define("TB_USERS_APPRECIATION", "user_appreciation");
 define("TB_USER_CATEGORY", "user_category");
 define("TB_IMAGE", "image");
 define("TB_IMAGE_COMMENTS", "image_comments");

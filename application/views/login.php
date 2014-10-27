@@ -165,16 +165,16 @@
 </style>
 
 <script>
-$(document).ready(function(){
-    $("#con").hover(function(){
-        $(this).animate({"opacity":"1"});
-    }, function(){
-        $(this).animate({"opacity":"0.75"});
-    });
-});
+//$(document).ready(function(){
+//    $("#con").hover(function(){
+//        $(this).animate({"opacity":"1"});
+//    }, function(){
+//        $(this).animate({"opacity":"0.75"});
+//    });
+//});
 </script>
 
-<div id="con" style="opacity: 0.75" class="container">
+<div id="con" style="opacity: 1.75" class="container">
     <div  class="login-container col-md-6 col-md-offset-3" style="margin-top: 5%;">
 
         <div class="avatar">
@@ -253,7 +253,7 @@ $(document).ready(function(){
                         <button class="btn btn-primary btn-block login" type="submit">Login</button>
                     </div> 
                     <div class='col-md-4'>
-                        <button class="btn btn-warning btn-block login" id='regBtn' type="button">Sign Up</button>
+                        <button class="btn btn-warning btn-block login regBtn" type="button">Sign Up</button>
                     </div> 
                 </div>         
                 <div class='row'>
@@ -271,7 +271,7 @@ $(document).ready(function(){
 
 <script>
     $(document).ready(function() {
-        $("#regBtn").click(function() {
+        $(".regBtn").click(function() {
             $("#regForm").slideDown(500);
         });
     });

@@ -22,6 +22,11 @@
                                 <form class="form-inline" action="<?php echo base_url("gallery/search") ?>" method="POST" role="form">
                                     <div class="input-group">
                                         <input type="text" name="search" class="form-control">
+                                        <select class="form-control">
+                                            <option>d</option>
+                                            <option>d</option>
+                                        </select>
+                                        <input type="text" name="search" class="form-control">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" type="submit">Search</button>
                                         </span>

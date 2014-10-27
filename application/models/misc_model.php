@@ -20,6 +20,18 @@ class Misc_model extends CI_Model {
         }
     }
 
+    function getCategories() {
+
+        $query = $this->db->get(TB_USER_CATEGORY);
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result();
+            return $result;
+        } else {
+            return FALSE;
+        }
+    }
+
     function searchByTitle($title) {
         $query = $this->db->query("SELECT * FROM " . TB_IMAGE . " WHERE `title` like '%" . $title . "%' ORDER BY `date_time` DESC");
 
@@ -56,10 +68,14 @@ class Misc_model extends CI_Model {
         }
     }
 
-    function searchByTagsTitle($search) {
-        $query = $this->db->query("SELECT * FROM " . TB_IMAGE . " "
-                . "                WHERE `tags` like '%" . $search . "%' "
-                . "                OR `title` like '%" . $search . "%' ORDER BY `date_time` DESC");
+    function searchByTagsTitle($search, $cat = "", $type = "up") {
+        if (trim($type) == "up") {
+            if (trim($cat) == "") {
+                $query = $this->db->query("SELECT * FROM " . TB_IMAGE . " "
+                        . "                WHERE `tags` like '%" . $search . "%' "
+                        . "                OR `title` like '%" . $search . "%' ORDER BY `date_time` DESC");
+            }
+        }
 
         if ($query->num_rows() > 0) {
             $result = $query->result();

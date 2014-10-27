@@ -16,6 +16,9 @@ class UserClass {
 
         if(!$CI->URM->checkProfileViewed($profile_username, $identifier)){
             $result = $CI->URM->addProfileView($profile_username, $identifier);
+            
+            $CI->load->library("rankClass", "", "RKC");
+            $CI->RKC->addUserAppreciation($profile_username, "profile_view");
         }else{
             $result = false;
         }        

@@ -9,12 +9,12 @@
  */
 class GalleryClass {
 
-    public function searchImages($search) {
+    public function searchImages($search, $cat, $type) {
         $CI = & get_instance();
         $CI->load->model("misc_model", "MCM", TRUE);
         $CI->load->library("obj/ImageObj", "", "IMO");
 
-        $result = $CI->MCM->searchByTagsTitle($search);
+        $result = $CI->MCM->searchByTagsTitle($search, $cat, $type);
 
         if ($result) {
             foreach ($result as $v) {

@@ -74,12 +74,12 @@
                                 <?php foreach ($userAlbums as $album) { ?>
                                     <div class="col-sm-6 col-md-4">
                                         <div class="thumbnail">
-                                            <img src="http://placehold.it/320x200" class="albumimg" rel="id<?php echo $album->id ?>" alt="The Image">
+                                            <img src="<?php ?>" style="width: 320px; height: 200px" class="albumimg" rel="id<?php echo $album->id ?>" alt="<?php echo $album->name ?>">
                                             <div class="caption" id="id<?php echo $album->id ?>caption">
-                                                <h3><?php echo $album->name ?></h3>
+                                                <h3><?php echo $album->name ?> (<?php echo $album->numImages ?>)</h3>
                                                 <p><?php echo $album->description ?></p>
                                                 <p>
-                                                    <a href="#" class="btn btn-primary" role="button">View</a> 
+                                                    <a href="<?php echo base_url() . "album/" . $album->id ?>" class="btn btn-primary" role="button">View</a> 
                                                 </p>
                                             </div>
                                         </div>
@@ -123,7 +123,7 @@
                             <div class='col-md-12'>
                                 <?php if (is_array($userFavImages)) { ?>
                                     <?php foreach ($userFavImages as $image) { ?>
-                                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="padding: 0px 4px 10px 4px">
+                                        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3" style="padding: 0px 4px 10px 4px">
                                             <div class="imageSub img-popover thumbnail info-thumbnail background-clouds color-text" >
                                                 <a href="<?php echo base_url("gallery/image") . "/" . $image->id; ?>">
                                                     <img class="img" src="<?php echo base_url() ?>collection/thumb_400_square/<?php echo $image->file ?>" alt="<?php echo $image->title ?>" />
@@ -165,9 +165,9 @@
                 </div>
 
             </div>
-            <div class='col-md-2'>
+<!--            <div class='col-md-2'>
                 <img src="holder.js/195x500/text:Advertise HERE" />
-            </div>
+            </div>-->
         </div>
 
 

@@ -281,7 +281,7 @@
     <div class="row user-menu-container square">
         <div class="col-md-7 user-details" style="margin-bottom: 0px">
             <div class="row coralbg white">
-                <div class="col-md-6 no-pad col-sm-6 col-xs-6" style="margin-bottom: 0px">
+                <div class="col-md-8 no-pad col-sm-8 col-xs-8" style="margin-bottom: 0px">
                     <div class="user-pad">
                         <h3 style="margin-top: 0px">
                             <?php if ($same) { ?>
@@ -310,15 +310,17 @@
                                 <button type="button" rel="<?php echo $user->id ?>" class="btn btn-default <?php echo $y ?>" id="followBtn" >Follow</button>
                                 <button type="button" rel="<?php echo $user->id ?>" class="btn btn-success <?php echo $n ?>" id="followingBtn" >Following</button>
                                 <!--<button type="button" class="btn btn-danger hidden" id="unfollowBtn" >Unfollow</button>-->
-    <?php } ?>  
-<?php } ?>  
+                            <?php } ?>  
+                        <?php } else { ?>
+                            <a href="<?php echo base_url("login/mustLogin/follow") ?>" class="btn btn-default">Follow</a>
+                        <?php } ?>
 
 
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 col-xs-6 no-pad"  style="margin-bottom: 0px">
+                <div class="col-md-4 col-sm-4 col-xs-4 no-pad"  style="margin-bottom: 0px">
                     <div class="user-image">
-                        <img src="<?php echo base_url("collection/profile/".$user->profile_img) ?>" class="img-responsive thumbnail">
+                        <img src="<?php echo base_url("collection/profile/" . $user->profile_img) ?>" class="img-responsive thumbnail">
                     </div>
                 </div>
             </div>
@@ -333,7 +335,7 @@
                 </div>
                 <div class="col-md-4 col-sm-4 col-xs-4 user-pad text-center">
                     <h3>APPRECIATIONS</h3>
-                    <h4>4,901</h4>
+                    <h4><?php echo $user->numAppreciation() ?></h4>
                 </div>
             </div>
         </div>
@@ -444,7 +446,7 @@
 
                 <form action="" method="POST">
                     <div class="row">
-<?php if ($same == "yes") { ?>
+                        <?php if ($same == "yes") { ?>
                             <div class="col-md-12">
                                 <p class="text-info">Messages from users whom want to reach you would be sent to this email</p>
                             </div>
@@ -464,7 +466,7 @@
                                     <input name="text" class="form-control input-lg" rows="8" value="Hey there... I can make you up for free"  />
                                 </div>
                             </div>      
-<?php } else { ?>
+                        <?php } else { ?>
                             <div class="col-md-12">
 
                                 <div class="form-group">
@@ -472,7 +474,7 @@
                                 </div>
 
                             </div>    
-<?php } ?>
+                        <?php } ?>
 
 
                     </div>

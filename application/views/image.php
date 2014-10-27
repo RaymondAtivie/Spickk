@@ -9,7 +9,7 @@
             <div class="col-md-4 col-sm-6" style='margin-bottom: 0px'>
                 <div class="media">
                     <a class="thumbnail pull-left" href="#">
-                        <img style="width: 100px" class="media-object" src="<?php echo base_url("collection/profile/".$image->getImageUser()->profile_img) ?>">
+                        <img style="width: 100px" class="media-object" src="<?php echo base_url("collection/profile/" . $image->getImageUser()->profile_img) ?>">
                     </a>
                     <div class="media-body">
                         <h3 class="media-heading"><b><?php echo $image->title ?></b></h3>
@@ -35,7 +35,9 @@
                         <button type="button" rel="<?php echo $image->getImageUser()->id ?>" class="btn btn-success <?php echo $n ?>" id="followingBtn" >Following</button>
                         <!--<button type="button" class="btn btn-danger hidden" id="unfollowBtn" >Unfollow</button>-->
                     <?php } ?>  
-                <?php } ?>  
+                <?php } else { ?>
+                    <a href="<?php echo base_url("login/mustLogin/follow") ?>" class="btn btn-default pull-right">Follow</a>
+                <?php } ?>
             </div>
 
             <div class='col-md-2 col-md-offset-2 col-sm-2'>
@@ -168,7 +170,11 @@
                 <div class="well well-sm">
                     <div class="row">
                         <div class="col-md-2">
-                            <img src='<?php echo base_url()."collection/profile/".$this->userObj->profile_img?>' style='width: 100%' />
+                            <?php if ($this->loggedIn) { ?>
+                                <img src='<?php echo base_url() . "collection/profile/" . $this->userObj->profile_img ?>' style='width: 100%' />
+                            <?php } else { ?>
+                                <img src='<?php echo base_url() . "collection/profile/unknown.jpg" ?>' style='width: 100%' />
+                            <?php } ?>
                         </div>
                         <div class="col-md-8">
                             <div class="row">
@@ -197,7 +203,7 @@
                     <?php foreach ($image->getComments() as $comment) { ?>
                         <li class="media blog-entry">
                             <div class="pull-left">
-                                <img style="width: 70px" class="media-object" src="<?php echo base_url()."collection/profile/".$comment['profile_img'] ?>" alt="...">
+                                <img style="width: 70px" class="media-object" src="<?php echo base_url() . "collection/profile/" . $comment['profile_img'] ?>" alt="...">
                             </div>
                             <div class="media-body">
                                 <div class="blog-entry-content">

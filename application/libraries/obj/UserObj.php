@@ -75,6 +75,7 @@ class UserObj {
         $this->images = $CI->IMC->getUserFavImages($this->id);
 
         if (is_array($this->images)) {
+
             function ppSort($a, $b) {
                 return $a->date_time == $b->date_time ? 0 : ( $a->date_time > $b->date_time ) ? -1 : 1;
             }
@@ -93,6 +94,9 @@ class UserObj {
 
         $bool = $CI->URM->followUser($this->id, $follow_id);
 
+        $CI->load->library("rankClass", "", "RKC");
+        $CI->RKC->addUserAppreciation($follow_id, "profile_followed");
+
         return $bool;
     }
 
@@ -101,6 +105,9 @@ class UserObj {
         $CI->load->model('User_model', 'URM', TRUE);
 
         $bool = $CI->URM->unfollowUser($this->id, $following_id);
+        
+        $CI->load->library("rankClass", "", "RKC");
+        $CI->RKC->addUserAppreciation($following_id, "profile_followed", TRUE);
 
         return $bool;
     }
@@ -219,6 +226,15 @@ class UserObj {
         return $num;
     }
     
+    function numAppreciation(){
+        $CI = & get_instance();
+        $CI->load->library('rankClass', "", 'RKC');
+
+        $num = $CI->RKC->getUserAppreciation($this->id);
+
+        return $num;
+    }
+
     public function getAlbums() {
         $CI = & get_instance();
         $CI->load->library('ImageClass', "", 'IMC');
@@ -227,7 +243,7 @@ class UserObj {
 
         return $albums;
     }
-    
+
     public function getGeneralAlbum() {
         $CI = & get_instance();
         $CI->load->model('user_model', "USM", TRUE);

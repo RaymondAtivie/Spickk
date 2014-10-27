@@ -379,7 +379,6 @@ class Image_model extends CI_Model {
         $where = array(
             "album_id" => $album_id
         );
-        $this->db->order_by("date_time", "desc");
         $query = $this->db->get_where(TB_ALBUM_IMAGE, $where);
 
         if ($query->num_rows() > 0) {
