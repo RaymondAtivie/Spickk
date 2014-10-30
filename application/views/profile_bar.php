@@ -365,30 +365,7 @@
                     Recent Interactions
                 </h3>
                 <ul class="user-menu-list user-menu-list-notif ">
-                    <?php foreach ($notifs as $notif) { ?>
-                        <li>
-                            <?php
-                            if ($notif['action'] == 'like') {
-                                $act = "heart-o";
-                            } elseif ($notif['action'] == 'follow') {
-                                $act = "plus";
-                            } elseif ($notif['action'] == 'collection') {
-                                $act = "star-o";
-                            } elseif ($notif['action'] == 'comment') {
-                                $act = "comment-o";
-                            } else {
-                                $act = "";
-                            }
-                            ?>
-    <?php if ($notif['type'] == 'photo') {
-        $icon = "photo";
-    } else {
-        $icon = "user";
-    } ?>
-                            <h4><i class="fa fa-<?php echo $act ?> coral"></i> <i class="fa fa-<?php echo $icon ?> coral"></i> 
-    <?php echo $notif['text'] ?></h4>
-                        </li>
-<?php } ?>
+                    
                     <li>
                         <button type="button" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="fa fa-bell-o"></i></span>View all activity</button>

@@ -8,10 +8,14 @@ class MY_Controller extends CI_Controller {
         if ($this->session->userdata("logged_in") == "yes") {
             $this->userObj = unserialize($this->session->userdata("userObj"));
             $this->loggedIn = true;
+
+
+            $this->load->library("notificationClass", "", "NFC");
+            $this->dataH['notifs'] = $this->NFC->getUserWrittenNotification($this->userObj->id);
         } else {
             $this->loggedIn = false;
         }
-        
+
         $this->load->library("obj/HandlerObj", "", "HDO");
         $this->handler = $this->HDO;
     }

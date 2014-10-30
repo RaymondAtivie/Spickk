@@ -91,6 +91,56 @@
                             </ul>
                         </li>
                     <?php } ?>
+
+                    <?php if ($this->session->userdata("logged_in") == "yes") { ?>
+                        <style>
+                            .mylistitem a{
+                                display: inline !important;
+                                padding: 0px !important;
+                            }
+                            .mylistitem i{
+                                color: white;
+                                padding-right: 3px;
+                            }
+                            .mylistitem{
+                                padding: 5px 15px;
+                            }
+                        </style>
+                        <li class="dropdown">
+                            <a title="Notifications" href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-globe"></span></a>
+                            <ul class="list-group dropdown-menu" style="width: 350px" >
+                                <?php foreach ($this->dataH['notifs'] as $notif) { ?>
+
+                                    <a href="<?php echo $notif['link'] ?>" class="list-group-item mylistitem">
+                                        <?php
+                                        if ($notif['action'] == 'like') {
+                                            $act = "heart-o";
+                                        } elseif ($notif['action'] == 'follow') {
+                                            $act = "plus";
+                                        } elseif ($notif['action'] == 'collection') {
+                                            $act = "star-o";
+                                        } elseif ($notif['action'] == 'comment') {
+                                            $act = "comment-o";
+                                        } else {
+                                            $act = "";
+                                        }
+                                        ?>
+                                        <?php
+                                        if ($notif['type'] == 'photo') {
+                                            $icon = "photo";
+                                        } else {
+                                            $icon = "user";
+                                        }
+                                        ?>
+                                        <i class="fa fa-<?php echo $act ?> coral"></i> <i class="fa fa-<?php echo $icon ?> coral"></i> 
+                                        <?php echo $notif['text'] ?>
+                                    </a>
+
+                                <?php } ?>
+                                <a href="" class="list-group-item">See more</a>
+                            </ul>
+                        </li>
+                    <?php } ?>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div>

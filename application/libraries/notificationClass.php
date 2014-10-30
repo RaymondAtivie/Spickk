@@ -60,19 +60,21 @@ class notificationClass {
         );
 
         if ($subjectObj->username == $CI->userObj->username) {
-            $subject = "<a href='" . base_url("profile/page/" . $subjectObj->username) . "'>You</a>";
+            $subject = "<span href='" . base_url("profile/page/" . $subjectObj->username) . "'>You</span>";
         } else {
-            $subject = "<a href='" . base_url("profile/page/" . $subjectObj->username) . "'>{$subjectObj->getFullname()}</a>";
+            $subject = "<span href='" . base_url("profile/page/" . $subjectObj->username) . "'>{$subjectObj->getFullname()}</span>";
         }
 
         if ($notif->action == "follow") {
             $notificationText = "$subject followed You";
             $notification['type'] = "profile";
+            $notification['link'] = base_url("profile/page/" . $subjectObj->username);
         } else {
             $notificationText = $subject
-                    . " {$actionArray[$notif->action]} <a href='" . base_url("gallery/image/" . $objectObj->id) . "' title='{$objectObj->title}'>Photo</a>";
+                    . " {$actionArray[$notif->action]} <span href='" . base_url("gallery/image/" . $objectObj->id) . "' title='{$objectObj->title}'>Photo</span>";
 
             $notification['type'] = "photo";
+            $notification['link'] = base_url("gallery/image/" . $objectObj->id);
         }
 
         $notification['text'] = $notificationText;
@@ -84,11 +86,15 @@ class notificationClass {
     function getUserWrittenNotification($user_id) {
         $notifs = $this->getUserNotifications($user_id);
 
-        foreach ($notifs as $notif) {
-            $notifications[] = $this->writeNotification($notif->id);
-        }
+        if (is_array($notifs)) {
+            foreach ($notifs as $notif) {
+                $notifications[] = $this->writeNotification($notif->id);
+            }
 
-        return $notifications;
+            return $notifications;
+        } else {
+            return false;
+        }
     }
 
 }
