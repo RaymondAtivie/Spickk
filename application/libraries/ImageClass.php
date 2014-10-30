@@ -125,11 +125,17 @@ class ImageClass {
     public function likeImage($user_id, $image_id) {
         if (!$this->checkLikeImage($user_id, $image_id)) {
             $CI = &get_instance();
+
             $CI->load->model("image_model", "IMM", TRUE);
             $result = $CI->IMM->likeImage($user_id, $image_id);
 
             $CI->load->library("rankClass", "", "RKC");
             $CI->RKC->addImageAppreciation($image_id, "photo_like");
+
+            $CI->load->library("obj/ImageObj", "", "IMO");
+            $image = $CI->IMO->getImageObj($image_id);
+            $CI->load->library("notificationClass", "", "NFC");
+            $CI->NFC->addNotification($user_id, "like", $image_id, $image->user_id);
 
             return $result;
         } else {
@@ -179,6 +185,11 @@ class ImageClass {
             $CI->load->library("rankClass", "", "RKC");
             $CI->RKC->addImageAppreciation($image_id, "photo_collection");
 
+            $CI->load->library("obj/ImageObj", "", "IMO");
+            $image = $CI->IMO->getImageObj($image_id);
+            $CI->load->library("notificationClass", "", "NFC");
+            $CI->NFC->addNotification($user_id, "collection", $image_id, $image->user_id);
+
             return $result;
         } else {
             return false;
@@ -226,6 +237,11 @@ class ImageClass {
 
         $CI->load->library("rankClass", "", "RKC");
         $CI->RKC->addImageAppreciation($image_id, "photo_comment");
+
+        $CI->load->library("obj/ImageObj", "", "IMO");
+        $image = $CI->IMO->getImageObj($image_id);
+        $CI->load->library("notificationClass", "", "NFC");
+        $CI->NFC->addNotification($user_id, "comment", $image_id, $image->user_id);
 
         return $result;
     }

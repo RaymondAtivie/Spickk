@@ -274,6 +274,10 @@
     .row .overview .col-md-4 {
         margin-bottom: 0px;
     }
+    ul.user-menu-list-notif>li{
+        text-align: left !important;
+    }
+
 
 </style>
 
@@ -285,7 +289,7 @@
                     <div class="user-pad">
                         <h3 style="margin-top: 0px">
                             <?php if ($same) { ?>
-                                Welcome back, <?php echo $user->firstname ?>
+                                Welcome back, <?php echo $this->userObj->firstname ?>
                             <?php } else { ?>
                                 <?php echo $user->firstname ?> <?php echo $user->lastname ?>
                             <?php } ?>  
@@ -360,16 +364,31 @@
                 <h3>
                     Recent Interactions
                 </h3>
-                <ul class="user-menu-list">
-                    <li>
-                        <h4><i class="fa fa-user coral"></i> Roselynn Smith followed you.</h4>
-                    </li>
-                    <li>
-                        <h4><i class="fa fa-heart-o coral"></i> Jonathan Hawkins followed you.</h4>
-                    </li>
-                    <li>
-                        <h4><i class="fa fa-paper-plane-o coral"></i> Gracie Jenkins followed you.</h4>
-                    </li>
+                <ul class="user-menu-list user-menu-list-notif ">
+                    <?php foreach ($notifs as $notif) { ?>
+                        <li>
+                            <?php
+                            if ($notif['action'] == 'like') {
+                                $act = "heart-o";
+                            } elseif ($notif['action'] == 'follow') {
+                                $act = "plus";
+                            } elseif ($notif['action'] == 'collection') {
+                                $act = "star-o";
+                            } elseif ($notif['action'] == 'comment') {
+                                $act = "comment-o";
+                            } else {
+                                $act = "";
+                            }
+                            ?>
+    <?php if ($notif['type'] == 'photo') {
+        $icon = "photo";
+    } else {
+        $icon = "user";
+    } ?>
+                            <h4><i class="fa fa-<?php echo $act ?> coral"></i> <i class="fa fa-<?php echo $icon ?> coral"></i> 
+    <?php echo $notif['text'] ?></h4>
+                        </li>
+<?php } ?>
                     <li>
                         <button type="button" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="fa fa-bell-o"></i></span>View all activity</button>
@@ -446,7 +465,7 @@
 
                 <form action="" method="POST">
                     <div class="row">
-                        <?php if ($same == "yes") { ?>
+<?php if ($same == "yes") { ?>
                             <div class="col-md-12">
                                 <p class="text-info">Messages from users whom want to reach you would be sent to this email</p>
                             </div>
@@ -466,7 +485,7 @@
                                     <input name="text" class="form-control input-lg" rows="8" value="Hey there... I can make you up for free"  />
                                 </div>
                             </div>      
-                        <?php } else { ?>
+<?php } else { ?>
                             <div class="col-md-12">
 
                                 <div class="form-group">
@@ -474,7 +493,7 @@
                                 </div>
 
                             </div>    
-                        <?php } ?>
+<?php } ?>
 
 
                     </div>

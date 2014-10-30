@@ -45,6 +45,10 @@ class UserObj {
         }
     }
 
+    function getFullname() {
+        return $this->firstname . " " . $this->lastname;
+    }
+
     function getCategory() {
         $CI = & get_instance();
         $CI->load->model('Misc_model', 'MCM', TRUE);
@@ -97,6 +101,9 @@ class UserObj {
         $CI->load->library("rankClass", "", "RKC");
         $CI->RKC->addUserAppreciation($follow_id, "profile_followed");
 
+        $CI->load->library("notificationClass", "", "NFC");
+        $CI->NFC->addNotification($this->id, "follow", $follow_id, $follow_id);
+
         return $bool;
     }
 
@@ -105,7 +112,7 @@ class UserObj {
         $CI->load->model('User_model', 'URM', TRUE);
 
         $bool = $CI->URM->unfollowUser($this->id, $following_id);
-        
+
         $CI->load->library("rankClass", "", "RKC");
         $CI->RKC->addUserAppreciation($following_id, "profile_followed", TRUE);
 
@@ -225,8 +232,8 @@ class UserObj {
 
         return $num;
     }
-    
-    function numAppreciation(){
+
+    function numAppreciation() {
         $CI = & get_instance();
         $CI->load->library('rankClass', "", 'RKC');
 

@@ -2,6 +2,17 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/xampp/htdocs/spickk/application/libraries/ImageClass.php</file>
+            <file>file:/C:/xampp/htdocs/spickk/application/libraries/notificationClass.php</file>
+            <file>file:/C:/xampp/htdocs/spickk/application/config/constants.php</file>
+            <file>file:/C:/xampp/htdocs/spickk/application/libraries/obj/UserObj.php</file>
+            <file>file:/C:/xampp/htdocs/spickk/application/libraries/UserClass.php</file>
+            <file>file:/C:/xampp/htdocs/spickk/application/controllers/profile.php</file>
+            <file>file:/C:/xampp/htdocs/spickk/application/models/rank_model.php</file>
+            <file>file:/C:/xampp/htdocs/spickk/application/models/notification_model.php</file>
+            <file>file:/C:/xampp/htdocs/spickk/application/views/profile_bar.php</file>
+            <file>file:/C:/xampp/htdocs/spickk/application/core/MY_Controller.php</file>
+        </group>
     </open-files>
 </project-private>

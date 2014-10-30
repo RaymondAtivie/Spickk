@@ -58,5 +58,6 @@ define("TB_ALBUM", "album");
 define("TB_ALBUM_IMAGE", "album_image");
 define("TB_FOLLOWING", "following");
 define("TB_PROFILE_VIEWS", "profile_views");
+define("TB_NOTIFICATION", "notification");
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
